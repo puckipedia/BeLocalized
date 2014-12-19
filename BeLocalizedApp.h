@@ -6,8 +6,11 @@
 class BeLocalizedApp : public BApplication {
 public:
 	BeLocalizedApp() : BApplication("application/x-puckipedia.BeLocalized") {}
+
 	void ArgvReceived(int32 argc, char **argv);
 	void ReadyToRun();
+
+	void MessageReceived(BMessage *msg);
 };
 
 #endif
