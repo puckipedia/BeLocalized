@@ -7,7 +7,7 @@
 void
 BeLocalizedApp::ArgvReceived(int32 argc, char **argv)
 {
-	printf("Got %d args\n", argc);
+	mPootle = new Pootle(BUrl(argv[1]), BMessenger(this), "user", "bitnami");
 }
 
 
@@ -15,12 +15,23 @@ void
 BeLocalizedApp::MessageReceived(BMessage *msg)
 {
 	msg->PrintToStream();
-	BApplication::MessageReceived(msg);
+	switch (msg->what) {
+	case kMsgPootleInited: {
+		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
+		for (int32 i = 0; i < msg.CountItems(); i++) {
+			printf("Item %d: %s\n", i, msg.ItemAt(i)->SourceLanguage().FullName().String());
+		}
+		Quit();
+		break;
+	}
+	default:
+		BApplication::MessageReceived(msg);
+		break;
+	}
 }
 
 
 void
 BeLocalizedApp::ReadyToRun()
 {
-	Pootle p(BUrl("http://192.168.178.44/"), BMessenger(this));
 }

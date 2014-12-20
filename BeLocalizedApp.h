@@ -3,6 +3,8 @@
 
 #include <Application.h>
 
+class Pootle;
+
 class BeLocalizedApp : public BApplication {
 public:
 	BeLocalizedApp() : BApplication("application/x-puckipedia.BeLocalized") {}
@@ -11,6 +13,9 @@ public:
 	void ReadyToRun();
 
 	void MessageReceived(BMessage *msg);
+
+private:
+	Pootle *mPootle;
 };
 
 #endif
