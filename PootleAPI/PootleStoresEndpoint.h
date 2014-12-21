@@ -22,6 +22,8 @@ public:
 	int							CountUnits();
 	PootleUnit					GetUnit(int);
 
+	BString ResourceUri() { return mUri; }
+
 	PootleStore() {}
 
 protected:

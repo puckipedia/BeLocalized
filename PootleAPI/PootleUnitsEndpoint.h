@@ -37,6 +37,8 @@ public:
 	Translation			Target();
 	BString				TranslatorComment();
 
+	BString ResourceUri() { return mUri; }
+
 	PootleUnit() {}
 
 protected:

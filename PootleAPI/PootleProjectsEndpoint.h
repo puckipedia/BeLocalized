@@ -26,6 +26,8 @@ public:
 	PootleTranslationProject	GetTranslationProject(int index);
 	BString						TreeStyle();
 
+	BString ResourceUri() { return mUri; }
+
 	PootleProject() {}
 
 protected:

@@ -20,6 +20,9 @@ public:
 	BString						SpecialCharacters();
 	int 						CountTranslationProjects();
 	PootleTranslationProject	GetTranslationProject(int index);
+
+	BString ResourceUri() { return mUri; }
+
 								PootleLanguage() {}
 protected:
 	friend class PootleLanguagesEndpoint;

@@ -34,12 +34,55 @@ PootleSuggestion::TranslatorComment()
 
 
 void
+PootleSuggestion::SetTarget(const char *target)
+{
+	_EnsureData();
+	mData.ReplaceString("target_f", target);
+}
+
+
+void
+PootleSuggestion::SetTranslatorComment(const char *comment)
+{
+	_EnsureData();
+	mData.ReplaceString("translator_comment_f", comment);
+}
+
+
+void
+PootleSuggestion::SetUnit(PootleUnit &unit)
+{
+	_EnsureData();
+	mData.ReplaceString("unit", unit.ResourceUri());
+}
+
+void
+PootleSuggestion::Put()
+{
+	if (mData.IsEmpty())
+		return;
+	
+	mEndpoint->_SendRequest("PUT", mUri, mData);
+	mEndpoint->_add_to_cache(mUri, *this);
+}
+
+void
+PootleSuggestion::Create()
+{
+	BMessage msg = mEndpoint->_SendRequest("POST", "", mData);
+	mUri = msg.GetString("_location", "");
+}
+
+void
 PootleSuggestion::_EnsureData()
 {
+	if (mUri.Length() < 1)
+		return;
+
 	if(!mData.IsEmpty())
 		return;
 
-	mData = mEndpoint->_SendRequest("GET", mUri, "");
+	mData = mEndpoint->_SendRequest("GET", mUri);
 	mEndpoint->_add_to_cache(mUri, *this);
 }
 

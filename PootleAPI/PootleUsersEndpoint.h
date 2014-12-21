@@ -19,6 +19,8 @@ public:
 	BString	LastName();
 	BString	UserName();
 
+	BString ResourceUri() { return mUri; }
+
 	PootleUser() {}
 
 protected:

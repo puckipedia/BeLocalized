@@ -87,7 +87,7 @@ PootleStore::_EnsureData()
 	if(!mData.IsEmpty())
 		return;
 
-	mData = mEndpoint->_SendRequest("GET", mUri, "");
+	mData = mEndpoint->_SendRequest("GET", mUri);
 	mEndpoint->_add_to_cache(mUri, *this);
 }
 

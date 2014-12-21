@@ -7,7 +7,10 @@
 void
 BeLocalizedApp::ArgvReceived(int32 argc, char **argv)
 {
-	mPootle = new Pootle(BUrl(argv[1]), BMessenger(this), "user", "bitnami");
+	if (argc < 4)
+		printf("Usage: %s url username password\n", argv[0]);
+	else
+		mPootle = new Pootle(BUrl(argv[1]), BMessenger(this), argv[2], argv[3]);
 }
 
 
@@ -20,11 +23,11 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
 		for (int32 i = 0; i < msg.CountItems(); i++) {
 			PootleProject *pr = msg.ItemAt(i);
-			printf("Item %04d: %s (%s)\n", i, pr->FullName().String(), pr->SourceLanguage().FullName().String());\
+			printf("Project %d: %s (%s)\n", i, pr->FullName().String(), pr->SourceLanguage().FullName().String());\
 			for (int32 j = 0; j < pr->CountTranslationProjects(); j++) {
 				PootleTranslationProject p = pr->GetTranslationProject(j);
 				PootleLanguage lang = p.Language();
-				printf("           %d. %s\n", j, lang.FullName().String());
+				printf("           %02d. %s\n", j, lang.FullName().String());
 			}
 		}
 		Quit();
@@ -40,4 +43,6 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 void
 BeLocalizedApp::ReadyToRun()
 {
+	if (mPootle == NULL)
+		Quit();
 }

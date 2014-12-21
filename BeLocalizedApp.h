@@ -7,7 +7,8 @@ class Pootle;
 
 class BeLocalizedApp : public BApplication {
 public:
-	BeLocalizedApp() : BApplication("application/x-puckipedia.BeLocalized") {}
+	BeLocalizedApp() : BApplication("application/x-puckipedia.BeLocalized"),
+		mPootle(NULL) {}
 
 	void ArgvReceived(int32 argc, char **argv);
 	void ReadyToRun();

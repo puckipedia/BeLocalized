@@ -17,6 +17,14 @@ public:
 	PootleUnit		Unit();
 	BString			Target();
 	BString			TranslatorComment();
+	BString			ResourceUri() { return mUri; }
+
+	void			SetTarget(const char *);
+	void			SetTranslatorComment(const char *);
+	void			SetUnit(PootleUnit &unit);
+
+	void			Put();
+	void			Create();
 
 	PootleSuggestion() {}
 

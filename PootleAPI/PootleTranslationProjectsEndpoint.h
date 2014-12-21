@@ -22,6 +22,8 @@ public:
 	int							CountStores();
 	PootleStore					GetStore(int);
 
+	BString ResourceUri() { return mUri; }
+
 	PootleTranslationProject() {}
 
 protected:
