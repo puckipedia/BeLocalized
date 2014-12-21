@@ -23,13 +23,33 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
 		for (int32 i = 0; i < msg.CountItems(); i++) {
 			PootleProject *pr = msg.ItemAt(i);
-			printf("Project %d: %s (%s)\n", i, pr->FullName().String(), pr->SourceLanguage().FullName().String());\
-			for (int32 j = 0; j < pr->CountTranslationProjects(); j++) {
-				PootleTranslationProject p = pr->GetTranslationProject(j);
-				PootleLanguage lang = p.Language();
-				printf("           %02d. %s\n", j, lang.FullName().String());
-			}
+			printf("Project %d: %s (from %s)\n", i, pr->FullName().String(), pr->SourceLanguage().FullName().String());\
 		}
+		int index;
+		printf("Choose project: ");
+		scanf("%d", &index);
+		PootleProject *pr = msg.ItemAt(index);
+		for (int32 i = 0; i < pr->CountTranslationProjects(); i++) {
+			PootleTranslationProject p = pr->GetTranslationProject(i);
+			printf("%4d: %s\n", i, p.Language().FullName().String());
+		}
+		printf("Choose translation project: ");
+		scanf("%d", &index);
+		PootleTranslationProject tp = pr->GetTranslationProject(index);
+		for (int32 i = 0; i < tp.CountStores(); i++) {
+			PootleStore st = tp.GetStore(i);
+			printf("%4d: %s\n", i, st.Name().String());
+		}
+		printf("Choose store: ");
+		scanf("%d", &index);
+		PootleStore st = tp.GetStore(index);
+		
+		for (int32 i = 0; i < st.CountUnits(); i++) {
+			PootleUnit u = st.GetUnit(i);
+			printf("%4d: %s\n", i, u.Source().text.String());
+		}
+		
+		
 		Quit();
 		break;
 	}

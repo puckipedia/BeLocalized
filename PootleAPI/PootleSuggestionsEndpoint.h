@@ -24,7 +24,7 @@ public:
 	void			SetUnit(PootleUnit &unit);
 
 	void			Put();
-	void			Create();
+	void			Create(PootleSuggestionsEndpoint *);
 
 	PootleSuggestion() {}
 

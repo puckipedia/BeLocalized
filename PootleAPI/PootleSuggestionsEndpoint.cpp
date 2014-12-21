@@ -67,10 +67,11 @@ PootleSuggestion::Put()
 }
 
 void
-PootleSuggestion::Create()
+PootleSuggestion::Create(PootleSuggestionsEndpoint *endpoint)
 {
+	mEndpoint = endpoint;
 	BMessage msg = mEndpoint->_SendRequest("POST", "", mData);
-	mUri = msg.GetString("_location", "");
+	*this = PootleSuggestion(mEndpoint, msg.GetString("_location", ""));
 }
 
 void
