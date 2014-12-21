@@ -28,7 +28,7 @@ BString
 PootleTranslationProject::PootlePath()
 {
 	_EnsureData();
-	return BString(mData.GetString("pootlepath", ""));
+	return BString(mData.GetString("pootle_path", ""));
 }
 
 
@@ -45,7 +45,7 @@ BString
 PootleTranslationProject::RealPath()
 {
 	_EnsureData();
-	return BString(mData.GetString("realpath", ""));
+	return BString(mData.GetString("real_path", ""));
 }
 
 

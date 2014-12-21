@@ -15,10 +15,10 @@ BeLocalizedApp::ArgvReceived(int32 argc, char **argv)
 
 
 void
-BeLocalizedApp::MessageReceived(BMessage *msg)
+BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 {
-	msg->PrintToStream();
-	switch (msg->what) {
+	msgrecv->PrintToStream();
+	switch (msgrecv->what) {
 	case kMsgPootleInited: {
 		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
 		for (int32 i = 0; i < msg.CountItems(); i++) {
@@ -38,7 +38,7 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 		PootleTranslationProject tp = pr->GetTranslationProject(index);
 		for (int32 i = 0; i < tp.CountStores(); i++) {
 			PootleStore st = tp.GetStore(i);
-			printf("%4d: %s\n", i, st.Name().String());
+			printf("%4d: %s\n", i, st.File().String());
 		}
 		printf("Choose store: ");
 		scanf("%d", &index);
@@ -54,7 +54,7 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 		break;
 	}
 	default:
-		BApplication::MessageReceived(msg);
+		BApplication::MessageReceived(msgrecv);
 		break;
 	}
 }

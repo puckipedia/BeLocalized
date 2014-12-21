@@ -36,7 +36,7 @@ BString
 PootleStore::PootlePath()
 {
 	_EnsureData();
-	return BString(mData.GetString("pootlepath", ""));
+	return BString(mData.GetString("pootle_path", ""));
 }
 
 
@@ -52,7 +52,7 @@ BString
 PootleStore::SyncTime()
 {
 	_EnsureData();
-	return BString(mData.GetString("synctime", ""));
+	return BString(mData.GetString("sync_time", ""));
 }
 
 
