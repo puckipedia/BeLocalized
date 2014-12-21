@@ -19,7 +19,13 @@ BeLocalizedApp::MessageReceived(BMessage *msg)
 	case kMsgPootleInited: {
 		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
 		for (int32 i = 0; i < msg.CountItems(); i++) {
-			printf("Item %d: %s\n", i, msg.ItemAt(i)->SourceLanguage().FullName().String());
+			PootleProject *pr = msg.ItemAt(i);
+			printf("Item %04d: %s (%s)\n", i, pr->FullName().String(), pr->SourceLanguage().FullName().String());\
+			for (int32 j = 0; j < pr->CountTranslationProjects(); j++) {
+				PootleTranslationProject p = pr->GetTranslationProject(j);
+				PootleLanguage lang = p.Language();
+				printf("           %d. %s\n", j, lang.FullName().String());
+			}
 		}
 		Quit();
 		break;

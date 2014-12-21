@@ -7,6 +7,7 @@
 
 #include <map>
 
+class PootleTranslationProjectsEndpoint;
 class PootleLanguage;
 class PootleStore;
 class PootleProject;

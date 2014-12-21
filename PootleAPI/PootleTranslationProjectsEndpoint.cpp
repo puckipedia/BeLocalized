@@ -49,6 +49,31 @@ PootleTranslationProject::RealPath()
 }
 
 
+
+int
+PootleTranslationProject::CountStores()
+{
+	_EnsureData();
+	BMessage stores;
+	mData.FindMessage("stores", &stores);
+	return stores.CountNames(B_ANY_TYPE);
+}
+
+
+PootleStore
+PootleTranslationProject::GetStore(int index)
+{
+	char buffer[33];
+	sprintf(buffer, "%d", index);
+
+	_EnsureData();
+	BMessage stores;
+	mData.FindMessage("stores", &stores);
+	BString str = stores.GetString(buffer, "");
+
+	return mEndpoint->mPootle->Stores()->GetByUrl(str);
+}
+
 void
 PootleTranslationProject::_EnsureData()
 {

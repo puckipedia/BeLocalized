@@ -17,7 +17,11 @@ Pootle::Pootle(BUrl url, const BMessenger &resultMessenger,
 	mPassword(password),
 	mLanguages(this),
 	mProjects(this),
-	mTranslationProjects(this)
+	mStores(this),
+	mSuggestions(this),
+	mTranslationProjects(this),
+	mUnits(this),
+	mUsers(this)
 {
 	mContext.AddAuthentication(BUrl(url, "api/v1"),
 		BHttpAuthentication(username, password));

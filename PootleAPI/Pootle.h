@@ -4,7 +4,11 @@
 #include "PootleEndpoint.h"
 #include "PootleLanguagesEndpoint.h"
 #include "PootleProjectsEndpoint.h"
+#include "PootleStoresEndpoint.h"
+#include "PootleSuggestionsEndpoint.h"
 #include "PootleTranslationProjectsEndpoint.h"
+#include "PootleUnitsEndpoint.h"
+#include "PootleUsersEndpoint.h"
 
 #include <Message.h>
 #include <Messenger.h>
@@ -28,16 +32,16 @@ public:
 		{ return &mLanguages; }
 	PootleProjectsEndpoint	*Projects()
 		{ return &mProjects; }
-	PootleEndpoint	Stores()
-		{ return PootleEndpoint(this, "stores/"); }
-	PootleEndpoint	Suggestions()
-		{ return PootleEndpoint(this, "suggestions/"); }
+	PootleStoresEndpoint	*Stores()
+		{ return &mStores; }
+	PootleSuggestionsEndpoint	*Suggestions()
+		{ return &mSuggestions; }
 	PootleTranslationProjectsEndpoint	*TranslationProjects() 
 		{ return &mTranslationProjects; }
-	PootleEndpoint	Units()
-		{ return PootleEndpoint(this, "units/"); }
-	PootleEndpoint	Users() 
-		{ return PootleEndpoint(this, "users/"); }
+	PootleUnitsEndpoint	*Units()
+		{ return &mUnits; }
+	PootleUsersEndpoint	*Users() 
+		{ return &mUsers; }
 	
 	void			DataReceived(BUrlRequest* caller, const char* data,
 						off_t position, ssize_t size);
@@ -51,6 +55,10 @@ protected:
 	PootleLanguagesEndpoint mLanguages;
 	PootleProjectsEndpoint mProjects;
 	PootleTranslationProjectsEndpoint mTranslationProjects;
+	PootleStoresEndpoint mStores;
+	PootleSuggestionsEndpoint mSuggestions;
+	PootleUnitsEndpoint mUnits;
+	PootleUsersEndpoint mUsers;
 	
 	BString mUsername;
 	BString mPassword;

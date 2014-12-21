@@ -31,7 +31,9 @@ APP_MIME_SIG = application/x-puckipedia.BeLocalized
 SRCS = main.cpp BeLocalizedApp.cpp \
 	PootleAPI/Pootle.cpp PootleAPI/PootleEndpoint.cpp \
 	PootleAPI/PootleLanguagesEndpoint.cpp PootleAPI/PootleProjectsEndpoint.cpp \
-	PootleAPI/PootleTranslationProjectsEndpoint.cpp
+	PootleAPI/PootleStoresEndpoint.cpp PootleAPI/PootleSuggestionsEndpoint.cpp \
+	PootleAPI/PootleTranslationProjectsEndpoint.cpp PootleAPI/PootleUnitsEndpoint.cpp \
+	PootleAPI/PootleUsersEndpoint.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

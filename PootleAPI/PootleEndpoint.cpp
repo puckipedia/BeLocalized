@@ -86,7 +86,7 @@ BMessage
 PootleEndpoint::_SendRequest(const char *method, const char *name,
 	const char *data)
 {
-	printf("Sending %s request to '%s' -> '%s', '%s'\n", method, mBaseEndpoint.UrlString().String(), name, data);
+	//printf("Sending %s request to '%s' -> '%s', '%s'\n", method, mBaseEndpoint.UrlString().String(), name, data);
 	SynchronousDataCollector collector;
 	BUrlRequest *r = BUrlProtocolRoster::MakeRequest(
 		BUrl(mBaseEndpoint, name), &collector, &mPootle->mContext);
@@ -106,7 +106,7 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 
 	BMessage msg;
 	BJson::Parse(msg, collector.data);
-	msg.PrintToStream();
+	//msg.PrintToStream();
 	return msg;
 }
 
