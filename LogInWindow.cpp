@@ -19,7 +19,7 @@ LogInWindow::LogInWindow(BRect rect)
 	BWindow(rect, "Log in", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	mServer = new BTextControl("server", "Server:", "http://i18n-next.haiku-os.org", NULL);
-	mServer->SetExplicitMinSize(BSize(mServer->TextView()->StringWidth(mServer->Text()), mServer->MinSize().Height()));
+	mServer->TextView()->SetExplicitMinSize(BSize(mServer->TextView()->StringWidth(mServer->Text()) + 20, mServer->MinSize().Height()));
 	mServer->SetAlignment(B_ALIGN_RIGHT, B_ALIGN_LEFT);
 
 	mUsername = new BTextControl("username", "Username:", "", NULL);
