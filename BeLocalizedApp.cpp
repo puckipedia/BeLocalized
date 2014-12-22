@@ -33,11 +33,13 @@ BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 		}
 		printf("Choose translation project: ");
 		scanf("%d", &index);
+
 		PootleTranslationProject tp = pr->GetTranslationProject(index);
 		for (int32 i = 0; i < tp.CountStores(); i++) {
 			PootleStore st = tp.GetStore(i);
 			printf("%4d: %s\n", i, st.File().String());
 		}
+
 		printf("Choose store: ");
 		scanf("%d", &index);
 		PootleStore st = tp.GetStore(index);
@@ -47,7 +49,26 @@ BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 			printf("%4d: %s\n", i, u.Source().text.String());
 		}
 		
-		
+		printf("Choose unit: ");
+		scanf("%d", &index);
+		PootleUnit u = st.GetUnit(index);
+		printf("Source: %s\n", u.Source().text.String());
+		printf("(comment): %s\n", u.TranslatorComment().String());
+		printf("Target: %s\n\n", u.Target().text.String());
+		char buffer[256];
+		PootleSuggestion s;
+		fgets(buffer, 256, stdin);
+
+		printf("Suggest: ");
+		fgets(buffer, 256, stdin);
+		s.SetTarget(buffer);
+
+		printf("(translated comment): ");
+		fgets(buffer, 256, stdin);
+		s.SetTranslatorComment(buffer);
+
+		s.SetUnit(u);
+		s.Create(mPootle->Suggestions());
 		Quit();
 		break;
 	}

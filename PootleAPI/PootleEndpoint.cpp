@@ -202,6 +202,7 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 		hr->SetMethod(method);
 		if (!data.IsEmpty()) {
 			BString data_str = message_to_json(data);
+			printf("Sending data:\n####\n%s\n####\n", data_str.String());
 			size_t length = data_str.Length() + 1;
 			BMemoryIO io(data_str.String(), length);
 			hr->AdoptInputData(&io, length);
@@ -222,6 +223,8 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 		msg.AddString("_location", ((BHttpResult &)hr->Result()).Headers().HeaderValue("Location"));
 	else
 		BJson::Parse(msg, collector.data);
+
+	msg.PrintToStream();
 
 	r->Stop();
 	delete r;
