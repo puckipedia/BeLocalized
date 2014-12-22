@@ -46,6 +46,8 @@ public:
 	PootleSuggestionsEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "suggestions/") {}
 
+	typedef PootleSuggestion Data;
+
 	PootleSuggestion					GetByUrl(BString);
 	PootleSuggestion					GetById(int id);
 protected:

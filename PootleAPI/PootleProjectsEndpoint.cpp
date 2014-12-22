@@ -97,6 +97,26 @@ PootleProject::GetTranslationProject(int index)
 }
 
 
+BObjectList<BString>
+PootleProject::GetTranslationProjectUrls()
+{
+	BMessage projects;
+	mData.FindMessage("translation_projects", &projects);
+
+	BObjectList<BString> returnval(20, true);
+	
+	int32 count = CountTranslationProjects();
+	BString indexer;
+	
+	for (int32 i = 0; i < count; i++) {
+		indexer.SetToFormat("%d", i);
+		returnval.AddItem(new BString(projects.GetString(indexer, "")));
+	}
+	
+	return returnval;
+}
+
+
 BString
 PootleProject::TreeStyle()
 {

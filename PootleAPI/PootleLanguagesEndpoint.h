@@ -41,6 +41,8 @@ public:
 	PootleLanguagesEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "languages/") {}
 
+	typedef PootleLanguage Data;
+
 	BObjectList<PootleLanguage> Get(int limit = -1, int offset = 0);
 	PootleLanguage GetById(int id);
 	PootleLanguage GetByUrl(BString);

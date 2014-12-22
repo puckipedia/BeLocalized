@@ -24,6 +24,7 @@ public:
 	PootleLanguage				SourceLanguage();
 	int							CountTranslationProjects();
 	PootleTranslationProject	GetTranslationProject(int index);
+	BObjectList<BString>		GetTranslationProjectUrls();
 	BString						TreeStyle();
 
 	BString ResourceUri() { return mUri; }
@@ -47,6 +48,8 @@ class PootleProjectsEndpoint : public PootleEndpoint {
 public:
 	PootleProjectsEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "projects/") {}
+
+	typedef PootleProject Data;
 
 	BObjectList<PootleProject>	Get(int limit = -1, int offset = 0);
 	PootleProject				GetByUrl(BString);

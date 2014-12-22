@@ -41,6 +41,8 @@ public:
 	PootleUsersEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "users/") {}
 
+	typedef PootleUser Data;
+
 	PootleUser					GetByUrl(BString);
 	PootleUser					GetById(int id);
 protected:

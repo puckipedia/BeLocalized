@@ -44,6 +44,8 @@ public:
 	PootleStoresEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "stores/") {}
 
+	typedef PootleStore Data;
+
 	PootleStore					GetByUrl(BString);
 	PootleStore					GetById(int id);
 protected:

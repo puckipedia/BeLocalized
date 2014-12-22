@@ -43,6 +43,9 @@ class PootleTranslationProjectsEndpoint : public PootleEndpoint {
 public:
 	PootleTranslationProjectsEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "translation-projects/") {}
+		
+	typedef PootleTranslationProject Data;
+		
 	PootleTranslationProject				GetByUrl(BString);
 	PootleTranslationProject				GetById(int id);
 protected:

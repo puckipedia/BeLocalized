@@ -59,6 +59,8 @@ public:
 	PootleUnitsEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "units/") {}
 
+	typedef PootleUnit Data;
+
 	PootleUnit					GetByUrl(BString);
 	PootleUnit					GetById(int id);
 protected:
