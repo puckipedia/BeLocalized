@@ -17,6 +17,7 @@ class PootleEndpoint {
 public:
 	PootleEndpoint(Pootle *, const char *);
 protected:
+	friend class Pootle;
 	BMessage _GetAll(const char *name, int maximum);
 	static PootleEndpointMeta _GetMeta(BMessage &msg);
 	BMessage _SendRequest(const char *method, const char *name, BMessage &data);

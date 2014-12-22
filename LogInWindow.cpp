@@ -16,19 +16,26 @@ const uint32 kMsgLogInPressed = 'LgIn';
 
 LogInWindow::LogInWindow(BRect rect)
 	:
-	BWindow(rect, "Log in", B_MODAL_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
+	BWindow(rect, "Log in", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	mServer = new BTextControl("server", "Server:", "http://i18n-next.haiku-os.org", NULL);
+	mServer->SetExplicitMinSize(BSize(mServer->TextView()->StringWidth(mServer->Text()), mServer->MinSize().Height()));
+	mServer->SetAlignment(B_ALIGN_RIGHT, B_ALIGN_LEFT);
+
 	mUsername = new BTextControl("username", "Username:", "", NULL);
+	mUsername->SetAlignment(B_ALIGN_RIGHT, B_ALIGN_LEFT);
 
 	mPassword = new BTextControl("password", "Password:", "", NULL);
 	mPassword->TextView()->HideTyping(true);
+	mPassword->SetAlignment(B_ALIGN_RIGHT, B_ALIGN_LEFT);
 
 	mLoginButton = new BButton("login", "Log in", new BMessage(kMsgLogInPressed));
 	mLoginButton->MakeDefault(true);
 
 	mStatusView = new BTextView("status");
 	mStatusView->SetText("Waiting for login...");
+	mStatusView->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+	
 	BLayoutBuilder::Grid<>(this)
 		.SetInsets(B_USE_WINDOW_INSETS)
 		.Add(mServer->CreateLabelLayoutItem(), 0, 0)
@@ -40,6 +47,11 @@ LogInWindow::LogInWindow(BRect rect)
 		.AddGroup(B_HORIZONTAL, B_USE_WINDOW_SPACING, 0, 3, 2)
 			.Add(mStatusView)
 			.Add(mLoginButton);
+	
+	BSize preferred = GetLayout()->PreferredSize();
+	ResizeTo(preferred.Width(), preferred.Height());
+
+	mUsername->MakeFocus();
 }
 
 
@@ -63,10 +75,11 @@ LogInWindow::MessageReceived(BMessage *msg)
 		break;
 	}
 	case kMsgPootleInitFailed:
-		mStatusView->SetText("Failed!");
+		mStatusView->SetText("Couldn't log in!");
 		mLoginButton->SetEnabled(true);
 		break;
 	default:
 		BWindow::MessageReceived(msg);
 	}
+	return;
 }

@@ -16,6 +16,7 @@ public:
 		:
 		data(NULL),
 		dataSize(0),
+		auth_failed(0),
 		semaphore(create_sem(0, "url request semaphore")) { }
 
 	void
@@ -47,9 +48,27 @@ public:
 			printf("DEBUG: %s\n", text);
 		#endif
 	}
+	
+	void
+	HeadersReceived(BUrlRequest *caller)
+	{
+		BHttpRequest *r = dynamic_cast<BHttpRequest *>(caller);
+		if (r) {
+			BHttpResult &res = (BHttpResult &)r->Result();
+			if (res.StatusCode() == 401) {
+				auth_failed++;
+				if (auth_failed > 3) {
+					r->Stop();
+					release_sem(semaphore);
+				}
+			}
+		}
+	}
+	
 
 	char *data;
 	size_t dataSize;
+	int auth_failed;
 	sem_id semaphore;
 };
 
@@ -195,10 +214,17 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 	acquire_sem(collector.semaphore);
 	
 	BMessage msg;
-	if(collector.dataSize == 0)
+	if (collector.auth_failed > 3) {
+		msg.AddBool("_authfailed", true);
+	}
+
+	if (collector.dataSize == 0)
 		msg.AddString("_location", ((BHttpResult &)hr->Result()).Headers().HeaderValue("Location"));
 	else
 		BJson::Parse(msg, collector.data);
+
+	r->Stop();
+	delete r;
 	return msg;
 }
 
