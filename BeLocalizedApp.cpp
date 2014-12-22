@@ -1,5 +1,6 @@
 #include "BeLocalizedApp.h"
 
+#include "LogInWindow.h"
 #include "PootleAPI/Pootle.h"
 
 #include <stdio.h>
@@ -7,10 +8,6 @@
 void
 BeLocalizedApp::ArgvReceived(int32 argc, char **argv)
 {
-	if (argc < 4)
-		printf("Usage: %s url username password\n", argv[0]);
-	else
-		mPootle = new Pootle(BUrl(argv[1]), BMessenger(this), argv[2], argv[3]);
 }
 
 
@@ -20,6 +17,7 @@ BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 	msgrecv->PrintToStream();
 	switch (msgrecv->what) {
 	case kMsgPootleInited: {
+		msgrecv->FindPointer("pootle", (void **)&mPootle);
 		BObjectList<PootleProject> msg = mPootle->Projects()->Get();
 		for (int32 i = 0; i < msg.CountItems(); i++) {
 			PootleProject *pr = msg.ItemAt(i);
@@ -63,6 +61,7 @@ BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 void
 BeLocalizedApp::ReadyToRun()
 {
-	if (mPootle == NULL)
-		Quit();
+	LogInWindow *w = new LogInWindow(BRect(0, 0, 100, 100));
+	w->CenterOnScreen();
+	w->Show();
 }
