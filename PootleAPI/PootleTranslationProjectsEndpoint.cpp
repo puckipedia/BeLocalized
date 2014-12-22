@@ -117,33 +117,6 @@ PootleTranslationProject::PootleTranslationProject(
 }
 
 
-BObjectList<PootleTranslationProject>
-PootleTranslationProjectsEndpoint::Get(int limit, int offset)
-{
-	BObjectList<PootleTranslationProject> objectlist(20, true);
-	BString url;
-	int32 count = -1;
-	if (limit == -1)
-		limit = 100;
-
-	url.SetToFormat("?limit=%d&offset=%d", limit, offset);
-	BMessage data = _GetAll(url, limit < 0 ? 0 : limit);
-	data.GetInfo("data", NULL, &count);
-
-	if (count < 0)
-		return objectlist;
-
-	for (int32 i = 0; i < count; i++) {
-		BMessage msg;
-		data.FindMessage("data", i, &msg);
-		PootleTranslationProject *lang
-			= new PootleTranslationProject(this, msg);
-		objectlist.AddItem(lang);
-	}
-	
-	return objectlist;
-}
-
 PootleTranslationProject
 PootleTranslationProjectsEndpoint::GetById(int id)
 {

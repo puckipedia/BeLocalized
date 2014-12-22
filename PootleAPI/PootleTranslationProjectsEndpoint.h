@@ -43,8 +43,6 @@ class PootleTranslationProjectsEndpoint : public PootleEndpoint {
 public:
 	PootleTranslationProjectsEndpoint(Pootle *pootle)
 		: PootleEndpoint(pootle, "translation-projects/") {}
-
-	BObjectList<PootleTranslationProject>	Get(int limit = -1, int offset = 0);
 	PootleTranslationProject				GetByUrl(BString);
 	PootleTranslationProject				GetById(int id);
 protected:
