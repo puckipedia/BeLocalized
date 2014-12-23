@@ -44,9 +44,9 @@ public:
 	DebugMessage(BUrlRequest *caller, BUrlProtocolDebugMessage msg,
 		const char *text)
 	{
-		#if DEBUG
+//		#if DEBUG
 			printf("DEBUG: %s\n", text);
-		#endif
+//		#endif
 	}
 	
 	void
@@ -194,18 +194,25 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 	BMessage &data)
 {
 	SynchronousDataCollector collector;
+	BUrl endpointUrl(mBaseEndpoint, name);
+	BString data_str;
+
 	BUrlRequest *r = BUrlProtocolRoster::MakeRequest(
-		BUrl(mBaseEndpoint, name), &collector, &mPootle->mContext);
+		endpointUrl, &collector, &mPootle->mContext);
 
 	BHttpRequest *hr = dynamic_cast<BHttpRequest *>(r);
 	if (hr) {
 		hr->SetMethod(method);
+
 		if (!data.IsEmpty()) {
-			BString data_str = message_to_json(data);
-			printf("Sending data:\n####\n%s\n####\n", data_str.String());
-			size_t length = data_str.Length() + 1;
-			BMemoryIO io(data_str.String(), length);
-			hr->AdoptInputData(&io, length);
+			data_str = message_to_json(data);
+			printf("Sending %s:\n####\n%s\n####\n", method, data_str.String());
+			size_t length = data_str.Length();
+			BMemoryIO *io = new BMemoryIO(data_str.String(), length + 1);
+			hr->AdoptInputData(io, length);
+			BHttpHeaders *h = new BHttpHeaders();
+			h->AddHeader("Content-Type", "application/json");
+			hr->AdoptHeaders(h);
 		}
 		hr->SetUserName(mPootle->mUsername);
 		hr->SetPassword(mPootle->mPassword);
@@ -221,6 +228,8 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 
 	if (collector.dataSize == 0)
 		msg.AddString("_location", ((BHttpResult &)hr->Result()).Headers().HeaderValue("Location"));
+	else if(((BHttpResult &)hr->Result()).StatusCode() == 500)
+		debugger("500 returned!");
 	else
 		BJson::Parse(msg, collector.data);
 

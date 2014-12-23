@@ -58,13 +58,14 @@ BeLocalizedApp::MessageReceived(BMessage *msgrecv)
 		char buffer[256];
 		PootleSuggestion s;
 		fgets(buffer, 256, stdin);
-
 		printf("Suggest: ");
 		fgets(buffer, 256, stdin);
+		buffer[strlen(buffer) - 1] = 0;
 		s.SetTarget(buffer);
 
 		printf("(translated comment): ");
 		fgets(buffer, 256, stdin);
+		buffer[strlen(buffer) - 1] = 0;
 		s.SetTranslatorComment(buffer);
 
 		s.SetUnit(u);

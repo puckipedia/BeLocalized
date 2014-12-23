@@ -23,8 +23,9 @@ Pootle::Pootle(BUrl url, const BMessenger &resultMessenger,
 	mUnits(this),
 	mUsers(this)
 {
-	mContext.AddAuthentication(BUrl(url, "api/v1"),
-		BHttpAuthentication(username, password));
+	BHttpAuthentication auth(username, password);
+	auth.SetMethod(B_HTTP_AUTHENTICATION_BASIC);
+	mContext.AddAuthentication(BUrl(url, "api/v1"), auth);
 	BUrlRequest *request = BUrlProtocolRoster::MakeRequest(mBaseUrl, this,
 		&mContext);
 	request->Run();
