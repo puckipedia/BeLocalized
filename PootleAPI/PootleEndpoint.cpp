@@ -44,9 +44,9 @@ public:
 	DebugMessage(BUrlRequest *caller, BUrlProtocolDebugMessage msg,
 		const char *text)
 	{
-//		#if DEBUG
+		#if DEBUG
 			printf("DEBUG: %s\n", text);
-//		#endif
+		#endif
 	}
 	
 	void
@@ -206,7 +206,6 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 
 		if (!data.IsEmpty()) {
 			data_str = message_to_json(data);
-			printf("Sending %s:\n####\n%s\n####\n", method, data_str.String());
 			size_t length = data_str.Length();
 			BMemoryIO *io = new BMemoryIO(data_str.String(), length + 1);
 			hr->AdoptInputData(io, length);
@@ -214,6 +213,7 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 			h->AddHeader("Content-Type", "application/json");
 			hr->AdoptHeaders(h);
 		}
+
 		hr->SetUserName(mPootle->mUsername);
 		hr->SetPassword(mPootle->mPassword);
 	}
@@ -232,8 +232,6 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 		debugger("500 returned!");
 	else
 		BJson::Parse(msg, collector.data);
-
-	msg.PrintToStream();
 
 	r->Stop();
 	delete r;
