@@ -37,7 +37,8 @@ void
 PootleSuggestion::SetTarget(const char *target)
 {
 	_EnsureData();
-	mData.ReplaceString("target_f", target);
+	mData.RemoveName("target_f");
+	mData.AddString("target_f", target);
 }
 
 
@@ -45,7 +46,8 @@ void
 PootleSuggestion::SetTranslatorComment(const char *comment)
 {
 	_EnsureData();
-	mData.ReplaceString("translator_comment_f", comment);
+	mData.RemoveName("translator_comment_f");
+	mData.AddString("translator_comment_f", comment);
 }
 
 
@@ -53,7 +55,8 @@ void
 PootleSuggestion::SetUnit(PootleUnit &unit)
 {
 	_EnsureData();
-	mData.ReplaceString("unit", unit.ResourceUri());
+	mData.RemoveName("unit");
+	mData.AddString("unit", unit.ResourceUri());
 }
 
 void
@@ -70,6 +73,7 @@ void
 PootleSuggestion::Create(PootleSuggestionsEndpoint *endpoint)
 {
 	mEndpoint = endpoint;
+	mData.PrintToStream();
 	BMessage msg = mEndpoint->_SendRequest("POST", "", mData);
 	*this = PootleSuggestion(mEndpoint, msg.GetString("_location", ""));
 }
