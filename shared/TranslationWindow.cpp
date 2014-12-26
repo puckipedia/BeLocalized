@@ -17,7 +17,12 @@ TranslationWindow::TranslationWindow(BRect rect)
 	mView = new TranslationView();
 	mMenu = new BMenuBar("menu bar");
 	mHideTranslated = new BMenuItem("Hide Translated", new BMessage(kMsgHideTranslated));
-	mMenu->AddItem(mHideTranslated);
+
+	BMenu *subMenu = new BMenu("Options");
+	subMenu->AddItem(mHideTranslated);
+
+	BMenuItem *subMenuItem = new BMenuItem(subMenu);
+	mMenu->AddItem(subMenuItem);
 	
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.Add(mMenu)

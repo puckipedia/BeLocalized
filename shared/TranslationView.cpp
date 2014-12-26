@@ -32,7 +32,8 @@ private:
 
 TranslationView::TranslationView()
 	:
-	BView("translation view", 0)
+	BView("translation view", 0),
+	mHideTranslated(false)
 {
 	mWordsView = new BListView("words view");
 	mWordsScrollView = new BScrollView("words scroller", mWordsView, 0, false, true);
@@ -198,6 +199,8 @@ TranslationView::MessageReceived(BMessage *msg)
 			BAlert *a = new BAlert("Failed to set translation", "Failed to set the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
 			delete a;
+		} else {
+			mWordsView->Select(mWordsView->CurrentSelection() + 1);
 		}
 		break;
 	}
@@ -207,6 +210,8 @@ TranslationView::MessageReceived(BMessage *msg)
 			BAlert *a = new BAlert("Failed to suggest translation", "Failed to suggest the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
 			delete a;
+		} else {
+			mWordsView->Select(mWordsView->CurrentSelection() + 1);
 		}
 		break;
 	}
