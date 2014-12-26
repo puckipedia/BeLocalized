@@ -19,6 +19,17 @@ const int32 kMsgSuggest = 'Sgst';
 const int32 kMsgSetTranslation = 'Trns';
 const int32 kMsgSelectUnit = 'SelU';
 
+class UnitItem : public BStringItem {
+public:
+			 UnitItem(const char *text, int32 index)
+				:
+				BStringItem(text),
+				mUnitIndex(index) {}
+	int32	 UnitIndex() { return mUnitIndex; }
+private:
+	int32	 mUnitIndex;
+};
+
 TranslationView::TranslationView()
 	:
 	BView("translation view", 0)
@@ -96,6 +107,32 @@ TranslationView::TranslationView()
 
 
 void
+TranslationView::HideTranslated(bool set)
+{
+	mHideTranslated = set;
+	UnitItem *u = (UnitItem *)mWordsView->ItemAt(mWordsView->CurrentSelection());
+
+	mWordsView->RemoveItems(0, mWordsView->CountItems());
+	int32 currentSelection = -1;
+
+	if (u)
+		currentSelection = u->UnitIndex() - 1;
+
+	int32 selection = 0;
+
+	for (int32 i = 0; i < mStore->LoadedUnits(); i++) {
+		if (!set || mStore->UnitAt(i)->Translated().Length() == 0) {
+			mWordsView->AddItem(new UnitItem(mStore->UnitAt(i)->Source(), i));
+			if (i == currentSelection) {
+				selection = mWordsView->CountItems();
+			}
+		}
+	}
+
+	mWordsView->Select(selection);
+}
+
+void
 TranslationView::SetStore(TranslationStore *s)
 {
 	mStore = s;
@@ -114,6 +151,8 @@ TranslationView::SetStore(TranslationStore *s)
 		mButtonsLayout->AddView(mSuggest);
 		mSuggest->MakeDefault(true);
 	}
+	
+	mReceivedUnits = 0;
 }
 
 void
@@ -129,30 +168,33 @@ TranslationView::MessageReceived(BMessage *msg)
 {
 	switch(msg->what) {
 	case kMsgGotUnit: {
-		Window()->Lock();
 		TranslationUnit *u;
 		if (msg->FindPointer("unit", (void **)&u) != B_OK) {
 			break;
 		}
+
+		if (!mHideTranslated || u->Translated().Length() == 0) {
+			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits));
+			if (mWordsView->CurrentSelection() == -1)
+				mWordsView->Select(0);
+		}
 		
-		mWordsView->AddItem(new BStringItem(u->Source()));
-		if (mWordsView->CurrentSelection() == -1)
-			mWordsView->Select(0);
-		Window()->Lock();
+		mReceivedUnits++;
 		break;
 	}
 	case kMsgSelectUnit: {
-		TranslationUnit *u = mStore->UnitAt(msg->GetInt32("index", 0));
-		mSource->SetText(u->Source());
-		mContext->SetText(u->Context());
-		mDeveloperComment->SetText(u->DeveloperComment());
-		mTranslated->SetText(u->Translated());
+		int index = ((UnitItem *)mWordsView->ItemAt(msg->GetInt32("index", 0)))->UnitIndex();
+		mUnit = mStore->UnitAt(index);
+		mSource->SetText(mUnit->Source());
+		mContext->SetText(mUnit->Context());
+		mDeveloperComment->SetText(mUnit->DeveloperComment());
+		mTranslated->SetText(mUnit->Translated());
+		mWordsView->ScrollToSelection();
 		break;
 	}
 	case kMsgSetTranslation: {
-		TranslationUnit *u = mStore->UnitAt(msg->GetInt32("index", 0));
-		u->SetTranslated(mTranslated->Text());
-		if (!u->SetAsTranslation()) {
+		mUnit->SetTranslated(mTranslated->Text());
+		if (!mUnit->SetAsTranslation()) {
 			BAlert *a = new BAlert("Failed to set translation", "Failed to set the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
 			delete a;
@@ -160,9 +202,8 @@ TranslationView::MessageReceived(BMessage *msg)
 		break;
 	}
 	case kMsgSuggest: {
-		TranslationUnit *u = mStore->UnitAt(msg->GetInt32("index", 0));
-		u->SetTranslated(mTranslated->Text());
-		if (!u->Suggest()) {
+		mUnit->SetTranslated(mTranslated->Text());
+		if (!mUnit->Suggest()) {
 			BAlert *a = new BAlert("Failed to suggest translation", "Failed to suggest the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
 			delete a;
@@ -170,7 +211,6 @@ TranslationView::MessageReceived(BMessage *msg)
 		break;
 	}
 	default:
-		msg->PrintToStream();
 		BView::MessageReceived(msg);
 	}
 }

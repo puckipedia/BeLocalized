@@ -21,8 +21,13 @@ public:
 	void	 MessageReceived(BMessage *);
 	void	 AttachedToWindow();
 	void	 SetStore(TranslationStore *);
+	
+	bool	 HidesTranslated() { return mHideTranslated; }
+	void	 HideTranslated(bool);
 
 private:
+	bool				 mHideTranslated;
+
 	BListView			*mWordsView;
 	BScrollView			*mWordsScrollView;
 	
@@ -47,6 +52,7 @@ private:
 
 	TranslationStore	*mStore;
 	TranslationUnit		*mUnit;
+	int					 mReceivedUnits;
 };
 
 #endif

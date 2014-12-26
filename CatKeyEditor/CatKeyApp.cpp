@@ -2,6 +2,7 @@
 
 #include "CatKeyStore.h"
 #include "TranslationView.h"
+#include "TranslationWindow.h"
 
 #include <Archivable.h>
 #include <File.h>
@@ -17,20 +18,17 @@
 void
 CatKeyApp::ReadyToRun()
 {
-	BWindow *win = new BWindow(BRect(0, 0, 680, 480), "BeLocalized", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS | B_QUIT_ON_WINDOW_CLOSE);
-	TranslationView *v = new TranslationView();
+	TranslationWindow *w = new TranslationWindow(BRect(0, 0, 680, 480));
+	w->CenterOnScreen();
 
-	BLayoutBuilder::Group<>(win)
-		.Add(v);
-
-	win->CenterOnScreen();
-
+	TranslationView *v = w->Translation();
 	BMessenger m(v);
 	CatKeyStore *s = new CatKeyStore("/boot/home/nl.catkeys", m, kMsgGotUnit);
-	win->SetTitle(s->Title());
+	w->SetTitle(s->Title());
 	v->SetStore(s);
+	v->HideTranslated(true);
 	s->StartLoading();
-	win->Show();
+	w->Show();
 
 	printf("Got %d units\n", s->TotalUnits());
 }
