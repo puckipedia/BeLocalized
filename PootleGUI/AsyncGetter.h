@@ -24,6 +24,7 @@ _GetAsync(void *data)
 		BMessage result(as->what);
 		result.AddPointer("pointer", pointer);
 		as->target->PostMessage(&result);
+		printf("Sent a message!\n");
 	}
 
 	delete as;
@@ -42,6 +43,7 @@ GetAsyncByIds(T *endpoint, BObjectList<BString> ids, BLooper *target, int32 what
 	thread_id t = spawn_thread(&_GetAsync<T>, "Async Data Getter", B_NORMAL_PRIORITY, d);
 	if (t >= 0)
 		resume_thread(t);
+	printf("Returned from GABI\n");
 }
 
 #endif
