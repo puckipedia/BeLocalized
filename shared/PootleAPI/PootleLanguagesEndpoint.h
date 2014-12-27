@@ -12,55 +12,39 @@ class PootleLanguagesEndpoint;
 
 class PootleLanguage {
 public:
-	BString						LanguageCode();
-	BString						Description();
-	BString						FullName();
-	int							NumberOfPlurals();
-	BString						PluralEquation();
-	BString						SpecialCharacters();
-	int 						CountTranslationProjects();
-	PootleTranslationProject	GetTranslationProject(int index);
+	typedef PootleEndpoint<PootleLanguage> _Endpoint;
+
+	BString									LanguageCode();
+	BString									Description();
+	BString									FullName();
+	int										NumberOfPlurals();
+	BString									PluralEquation();
+	BString									SpecialCharacters();
+	BObjectList<PootleTranslationProject>	TranslationProjects();
+	int 									CountTranslationProjects();
+	PootleTranslationProject				GetTranslationProject(int index);
 
 	BString ResourceUri() { return mUri; }
 
-								PootleLanguage() {}
-protected:
-	friend class PootleLanguagesEndpoint;
-	PootleLanguage(PootleLanguagesEndpoint *, BMessage &);
-	PootleLanguage(PootleLanguagesEndpoint *, int);
-	PootleLanguage(PootleLanguagesEndpoint *, BString);
+	PootleLanguage() {}
+	PootleLanguage(_Endpoint *, BMessage &);
+	PootleLanguage(_Endpoint *, int);
+	PootleLanguage(_Endpoint *, BString);
 private:
-	void						_EnsureData();
-	PootleLanguagesEndpoint *mEndpoint;
-	BString mUri;
-	BMessage mData;
+	void		_EnsureData();
+	_Endpoint	*mEndpoint;
+	BString		mUri;
+	BMessage	mData;
 };
 
-class PootleLanguagesEndpoint : public PootleEndpoint {
+class PootleLanguagesEndpoint : public PootleEndpoint<PootleLanguage> {
 public:
 	PootleLanguagesEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "languages/") {}
-
-	typedef PootleLanguage Data;
+		: PootleEndpoint<PootleLanguage>(pootle, "languages/") {}
 
 	BObjectList<PootleLanguage> Get(int limit = -1, int offset = 0);
-	PootleLanguage GetById(int id);
-	PootleLanguage GetByUrl(BString);
-	
-	PootleLanguage _get_from_cache(int);
-	PootleLanguage _get_from_cache(BString);
-	
 protected:
 	friend class PootleLanguage;
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleLanguage);
-	void _add_to_cache(BString, PootleLanguage);
-private:
-	static int _path_to_id(BString);	
-	std::map<int, PootleLanguage> mLanguageEndpoints;
 };
 
 #endif

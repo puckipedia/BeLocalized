@@ -73,7 +73,7 @@ public:
 };
 
 
-PootleEndpoint::PootleEndpoint(Pootle *pootle, const char *endpoint)
+_PootleBase::_PootleBase(Pootle *pootle, const char *endpoint)
 	:
 	mPootle(pootle),
 	mBaseEndpoint(pootle->mBaseUrl, endpoint)
@@ -84,7 +84,7 @@ PootleEndpoint::PootleEndpoint(Pootle *pootle, const char *endpoint)
 
 
 PootleEndpointMeta
-PootleEndpoint::_GetMeta(BMessage &msg)
+_PootleBase::_GetMeta(BMessage &msg)
 {
 	PootleEndpointMeta meta;
 	BMessage message;
@@ -183,14 +183,14 @@ message_to_json(BMessage &msg)
 }
 
 BMessage
-PootleEndpoint::_SendRequest(const char *method, const char *name)
+_PootleBase::_SendRequest(const char *method, const char *name)
 {
 	BMessage data;
 	return _SendRequest(method, name, data);
 }
 
 BMessage
-PootleEndpoint::_SendRequest(const char *method, const char *name,
+_PootleBase::_SendRequest(const char *method, const char *name,
 	BMessage &data)
 {
 	SynchronousDataCollector collector;
@@ -239,7 +239,7 @@ PootleEndpoint::_SendRequest(const char *method, const char *name,
 }
 
 BMessage
-PootleEndpoint::_GetAll(const char *name, int maximum)
+_PootleBase::_GetAll(const char *name, int maximum)
 {
 	PootleEndpointMeta meta;
 	BString url(name);
@@ -268,4 +268,18 @@ PootleEndpoint::_GetAll(const char *name, int maximum)
 	} while (meta.next.Length() != 0);
 	
 	return data;
+}
+
+
+int
+_PootleBase::_path_to_id(BString path)
+{
+	int32 index = path.FindLast("/", path.Length() - 2);
+	if (index < 0)
+		index = 0;
+	else
+		index += 1;
+
+	int id = atoi(path.String() + index);
+	return id;
 }

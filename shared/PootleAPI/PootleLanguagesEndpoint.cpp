@@ -76,7 +76,27 @@ PootleLanguage::GetTranslationProject(int index)
 	mData.FindMessage("translation_projects", &projects);
 	BString str = projects.GetString(buffer, "");
 
-	return mEndpoint->mPootle->TranslationProjects()->GetByUrl(str);
+	return mEndpoint->API()->TranslationProjects()->GetByUrl(str);
+}
+
+
+BObjectList<PootleTranslationProject>
+PootleLanguage::TranslationProjects()
+{
+	BMessage tprojects;
+	mData.FindMessage("translation_projects", &tprojects);
+
+	BObjectList<BString> urls(20, true);
+	
+	int32 count = tprojects.CountNames(B_ANY_TYPE);
+
+	char buffer[33];
+	for (int32 i = 0; i < count; i++) {
+		sprintf(buffer, "%d", i);
+		urls.AddItem(new BString(tprojects.GetString(buffer, "")));
+	}
+	
+	return mEndpoint->API()->TranslationProjects()->GetByList(urls);
 }
 
 
@@ -90,7 +110,8 @@ PootleLanguage::_EnsureData()
 	mEndpoint->_add_to_cache(mUri, *this);
 }
 
-PootleLanguage::PootleLanguage(PootleLanguagesEndpoint *endpoint, BMessage &data)
+
+PootleLanguage::PootleLanguage(_Endpoint *endpoint, BMessage &data)
 	:
 	mEndpoint(endpoint),
 	mData(data),
@@ -100,7 +121,7 @@ PootleLanguage::PootleLanguage(PootleLanguagesEndpoint *endpoint, BMessage &data
 }
 
 
-PootleLanguage::PootleLanguage(PootleLanguagesEndpoint *endpoint, int id)
+PootleLanguage::PootleLanguage(_Endpoint *endpoint, int id)
 	:
 	mEndpoint(endpoint)
 {
@@ -110,7 +131,7 @@ PootleLanguage::PootleLanguage(PootleLanguagesEndpoint *endpoint, int id)
 }
 
 
-PootleLanguage::PootleLanguage(PootleLanguagesEndpoint *endpoint, BString uri)
+PootleLanguage::PootleLanguage(_Endpoint *endpoint, BString uri)
 	:
 	mEndpoint(endpoint),
 	mUri(uri)
@@ -145,74 +166,3 @@ PootleLanguagesEndpoint::Get(int limit, int offset)
 	
 	return objectlist;
 }
-
-
-PootleLanguage
-PootleLanguagesEndpoint::GetById(int id)
-{
-	return PootleLanguage(this, id);
-}
-
-
-PootleLanguage
-PootleLanguagesEndpoint::GetByUrl(BString url)
-{
-	return PootleLanguage(this, url);
-}
-
-
-void
-PootleLanguagesEndpoint::_add_to_cache(int id, PootleLanguage lang)
-{
-	mLanguageEndpoints[id] = lang;
-}
-
-
-int
-PootleLanguagesEndpoint::_path_to_id(BString path)
-{
-	int32 index = path.FindLast("/", path.Length() - 2);
-	if (index < 0)
-		index = 0;
-	else
-		index += 1;
-
-	int id = atoi(path.String() + index);
-	return id;
-}
-
-
-void
-PootleLanguagesEndpoint::_add_to_cache(BString path, PootleLanguage lang)
-{
-	_add_to_cache(_path_to_id(path), lang);
-}
-
-
-bool
-PootleLanguagesEndpoint::_cache_contains(int id)
-{
-	return mLanguageEndpoints.count(id) != 0;
-}
-
-
-bool
-PootleLanguagesEndpoint::_cache_contains(BString path)
-{
-	return _cache_contains(_path_to_id(path));
-}
-
-
-PootleLanguage
-PootleLanguagesEndpoint::_get_from_cache(int id)
-{
-	return mLanguageEndpoints[id];
-}
-
-
-PootleLanguage
-PootleLanguagesEndpoint::_get_from_cache(BString path)
-{
-	return _get_from_cache(_path_to_id(path));
-}
-

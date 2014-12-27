@@ -30,11 +30,12 @@ APP_MIME_SIG = application/x-puckipedia.BeLocalized
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS = main.cpp BeLocalizedApp.cpp LogInWindow.cpp \
 	PootleMainWindow.cpp \
-	PootleAPI/Pootle.cpp PootleAPI/PootleEndpoint.cpp \
-	PootleAPI/PootleLanguagesEndpoint.cpp PootleAPI/PootleProjectsEndpoint.cpp \
-	PootleAPI/PootleStoresEndpoint.cpp PootleAPI/PootleSuggestionsEndpoint.cpp \
-	PootleAPI/PootleTranslationProjectsEndpoint.cpp PootleAPI/PootleUnitsEndpoint.cpp \
-	PootleAPI/PootleUsersEndpoint.cpp
+	../shared/PootleAPI/Pootle.cpp ../shared/PootleAPI/PootleEndpoint.cpp \
+	../shared/PootleAPI/PootleLanguagesEndpoint.cpp ../shared/PootleAPI/PootleProjectsEndpoint.cpp \
+	../shared/PootleAPI/PootleStoresEndpoint.cpp ../shared/PootleAPI/PootleSuggestionsEndpoint.cpp \
+	../shared/PootleAPI/PootleTranslationProjectsEndpoint.cpp ../shared/PootleAPI/PootleUnitsEndpoint.cpp \
+	../shared/PootleAPI/PootleUsersEndpoint.cpp ../shared/TranslationView.cpp \
+	../shared/PootleInterop.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.

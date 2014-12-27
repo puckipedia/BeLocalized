@@ -13,57 +13,39 @@ class PootleUnit;
 
 class PootleStore {
 public:
+	typedef PootleEndpoint<PootleStore> _Endpoint;
+
 	BString						File();
 	BString						Name();
 	BString						PootlePath();
 	int							State();
 	BString						SyncTime();
 	PootleTranslationProject	TranslationProject();
+	BObjectList<PootleUnit>		Units();
+	BObjectList<BString>		UnitUrls();
 	int							CountUnits();
 	PootleUnit					GetUnit(int);
 
 	BString ResourceUri() { return mUri; }
 
 	PootleStore() {}
-
-protected:
-	friend class PootleStoresEndpoint;
-	PootleStore(PootleStoresEndpoint *, BMessage &);
-	PootleStore(PootleStoresEndpoint *, int);
-	PootleStore(PootleStoresEndpoint *, BString);
+	PootleStore(_Endpoint *, BMessage &);
+	PootleStore(_Endpoint *, int);
+	PootleStore(_Endpoint *, BString);
 
 private:
-	void						_EnsureData();
-	PootleStoresEndpoint		*mEndpoint;
-	BString						mUri;
-	BMessage					mData;
+	void			_EnsureData();
+	_Endpoint		*mEndpoint;
+	BString			mUri;
+	BMessage		mData;
 };
 
-class PootleStoresEndpoint : public PootleEndpoint {
+class PootleStoresEndpoint : public PootleEndpoint<PootleStore> {
 public:
 	PootleStoresEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "stores/") {}
-
-	typedef PootleStore Data;
-
-	PootleStore					GetByUrl(BString);
-	PootleStore					GetById(int id);
-	BObjectList<PootleStore>	GetByList(BObjectList<BString>);
+		: PootleEndpoint<PootleStore>(pootle, "stores/") {}
 protected:
 	friend class PootleStore;
-		
-	PootleStore _get_from_cache(int);
-	PootleStore _get_from_cache(BString);
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleStore);
-	void _add_to_cache(BString, PootleStore);
-
-private:
-	static int _path_to_id(BString);
-	std::map<int, PootleStore> mLanguageEndpoints;
 };
 
 #endif

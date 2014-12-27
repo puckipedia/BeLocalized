@@ -17,16 +17,21 @@ const int32 kMsgGotUnit = 'Unit';
 
 class TranslationView : public BView {
 public:
-			 TranslationView();
-	void	 MessageReceived(BMessage *);
-	void	 AttachedToWindow();
-	void	 SetStore(TranslationStore *);
+						 TranslationView();
+	void				 MessageReceived(BMessage *);
+	void				 AttachedToWindow();
+	void				 SetStore(TranslationStore *);
+	TranslationStore	*Store() { return mStore; }
 	
-	bool	 HidesTranslated() { return mHideTranslated; }
-	void	 HideTranslated(bool);
+	bool				 HidesTranslated() { return mHideTranslated; }
+	void				 HideTranslated(bool);
 
 private:
+	void				 _UpdateView();
+	int32				 _IndexForIndex(int32);
+
 	bool				 mHideTranslated;
+	int32				 mCurrentSelection;
 
 	BListView			*mWordsView;
 	BScrollView			*mWordsScrollView;

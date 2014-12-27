@@ -14,6 +14,8 @@ class PootleUnit;
 
 class PootleSuggestion {
 public:
+	typedef PootleEndpoint<PootleSuggestion> _Endpoint;
+
 	PootleUnit		Unit();
 	BString			Target();
 	BString			TranslatorComment();
@@ -27,46 +29,23 @@ public:
 	void			Create(PootleSuggestionsEndpoint *);
 
 	PootleSuggestion() {}
-
-protected:
-	friend class PootleSuggestionsEndpoint;
-	PootleSuggestion(PootleSuggestionsEndpoint *, BMessage &);
-	PootleSuggestion(PootleSuggestionsEndpoint *, int);
-	PootleSuggestion(PootleSuggestionsEndpoint *, BString);
+	PootleSuggestion(_Endpoint *, BMessage &);
+	PootleSuggestion(_Endpoint *, int);
+	PootleSuggestion(_Endpoint *, BString);
 
 private:
-	void						_EnsureData();
-	PootleSuggestionsEndpoint		*mEndpoint;
-	BString						mUri;
-	BMessage					mData;
+	void		_EnsureData();
+	_Endpoint	*mEndpoint;
+	BString		mUri;
+	BMessage	mData;
 };
 
-class PootleSuggestionsEndpoint : public PootleEndpoint {
+class PootleSuggestionsEndpoint : public PootleEndpoint<PootleSuggestion> {
 public:
 	PootleSuggestionsEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "suggestions/") {}
-
-	typedef PootleSuggestion Data;
-
-	PootleSuggestion					GetByUrl(BString);
-	PootleSuggestion					GetById(int id);
-	BObjectList<PootleSuggestion>		GetByList(BObjectList<BString>);
-
+		: PootleEndpoint<PootleSuggestion>(pootle, "suggestions/") {}
 protected:
 	friend class PootleSuggestion;
-		
-	PootleSuggestion _get_from_cache(int);
-	PootleSuggestion _get_from_cache(BString);
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleSuggestion);
-	void _add_to_cache(BString, PootleSuggestion);
-
-private:
-	static int _path_to_id(BString);
-	std::map<int, PootleSuggestion> mLanguageEndpoints;
 };
 
 #endif

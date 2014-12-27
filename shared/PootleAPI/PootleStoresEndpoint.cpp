@@ -19,7 +19,7 @@ PootleTranslationProject
 PootleStore::TranslationProject()
 {
 	_EnsureData();
-	return mEndpoint->mPootle->TranslationProjects()->GetByUrl(
+	return mEndpoint->API()->TranslationProjects()->GetByUrl(
 		mData.GetString("translation_project", ""));
 }
 
@@ -77,7 +77,32 @@ PootleStore::GetUnit(int index)
 	mData.FindMessage("units", &units);
 	BString str = units.GetString(buffer, "");
 
-	return mEndpoint->mPootle->Units()->GetByUrl(str);
+	return mEndpoint->API()->Units()->GetByUrl(str);
+}
+
+
+BObjectList<BString>
+PootleStore::UnitUrls()
+{
+	BMessage units;
+	mData.FindMessage("units", &units);
+
+	BObjectList<BString> urls(20, true);
+	
+	int32 count = units.CountNames(B_ANY_TYPE);
+
+	char buffer[33];
+	for (int32 i = 0; i < count; i++) {
+		sprintf(buffer, "%d", i);
+		urls.AddItem(new BString(units.GetString(buffer, "")));
+	}
+	return urls;
+}
+
+BObjectList<PootleUnit>
+PootleStore::Units()
+{
+	return mEndpoint->API()->Units()->GetByList(UnitUrls());
 }
 
 
@@ -92,7 +117,7 @@ PootleStore::_EnsureData()
 }
 
 PootleStore::PootleStore(
-	PootleStoresEndpoint *endpoint, BMessage &data)
+	_Endpoint *endpoint, BMessage &data)
 	:
 	mEndpoint(endpoint),
 	mData(data),
@@ -103,7 +128,7 @@ PootleStore::PootleStore(
 
 
 PootleStore::PootleStore(
-	PootleStoresEndpoint *endpoint, int id)
+	_Endpoint *endpoint, int id)
 	:
 	mEndpoint(endpoint)
 {
@@ -114,7 +139,7 @@ PootleStore::PootleStore(
 
 
 PootleStore::PootleStore(
-	PootleStoresEndpoint *endpoint, BString uri)
+	_Endpoint *endpoint, BString uri)
 	:
 	mEndpoint(endpoint),
 	mUri(uri)
@@ -122,106 +147,3 @@ PootleStore::PootleStore(
 	if (mEndpoint->_cache_contains(uri))
 		*this = mEndpoint->_get_from_cache(uri);
 }
-
-
-PootleStore
-PootleStoresEndpoint::GetById(int id)
-{
-	return PootleStore(this, id);
-}
-
-
-PootleStore
-PootleStoresEndpoint::GetByUrl(BString url)
-{
-	return PootleStore(this, url);
-}
-
-
-BObjectList<PootleStore>
-PootleStoresEndpoint::GetByList(BObjectList<BString> list)
-{
-	BObjectList<PootleStore> returnList(20, true);
-	char buffer[34];
-	
-	BString setUrl = mBaseEndpoint.Path() + "set/";
-	for (int32 i = 0; i < list.CountItems(); i++) {
-		BString *str = list.ItemAt(i);
-		sprintf(buffer, "%d;", _path_to_id(*str));
-		setUrl.Append(buffer);
-	}
-
-	setUrl.RemoveLast(";");
-	setUrl.Append("/");
-	
-	BMessage ret = _SendRequest("GET", setUrl);
-	BMessage objects;
-	ret.FindMessage("object", &objects);
-	int32 count = objects.CountNames(B_ANY_TYPE);
-	for (int32 i = 0; i < count; i++) {
-		sprintf(buffer, "%d", i);
-		BMessage msg;
-		objects.FindMessage(buffer, &msg);
-		returnList.AddItem(new PootleStore(this, msg));
-	}
-	
-	return returnList;
-}
-
-
-void
-PootleStoresEndpoint::_add_to_cache(int id, PootleStore lang)
-{
-	mLanguageEndpoints[id] = lang;
-}
-
-
-int
-PootleStoresEndpoint::_path_to_id(BString path)
-{
-	int32 index = path.FindLast("/", path.Length() - 2);
-	if (index < 0)
-		index = 0;
-	else
-		index += 1;
-
-	int id = atoi(path.String() + index);
-	return id;
-}
-
-
-void
-PootleStoresEndpoint::_add_to_cache(BString path,
-	PootleStore lang)
-{
-	_add_to_cache(_path_to_id(path), lang);
-}
-
-
-bool
-PootleStoresEndpoint::_cache_contains(int id)
-{
-	return mLanguageEndpoints.count(id) != 0;
-}
-
-
-bool
-PootleStoresEndpoint::_cache_contains(BString path)
-{
-	return _cache_contains(_path_to_id(path));
-}
-
-
-PootleStore
-PootleStoresEndpoint::_get_from_cache(int id)
-{
-	return mLanguageEndpoints[id];
-}
-
-
-PootleStore
-PootleStoresEndpoint::_get_from_cache(BString path)
-{
-	return _get_from_cache(_path_to_id(path));
-}
-

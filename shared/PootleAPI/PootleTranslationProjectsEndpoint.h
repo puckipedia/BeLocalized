@@ -14,57 +14,39 @@ class PootleProject;
 
 class PootleTranslationProject {
 public:
+	typedef PootleEndpoint<PootleTranslationProject> _Endpoint;
+
 	BString						Description();
 	PootleLanguage				Language();
 	BString						PootlePath();
 	PootleProject				Project();
 	BString						RealPath();
+	BObjectList<PootleStore>	Stores();
 	int							CountStores();
 	PootleStore					GetStore(int);
 
 	BString ResourceUri() { return mUri; }
 
 	PootleTranslationProject() {}
-
-protected:
-	friend class PootleTranslationProjectsEndpoint;
-	PootleTranslationProject(PootleTranslationProjectsEndpoint *, BMessage &);
-	PootleTranslationProject(PootleTranslationProjectsEndpoint *, int);
-	PootleTranslationProject(PootleTranslationProjectsEndpoint *, BString);
+	PootleTranslationProject(_Endpoint *, BMessage &);
+	PootleTranslationProject(_Endpoint *, int);
+	PootleTranslationProject(_Endpoint *, BString);
 
 private:
-	void									_EnsureData();
-	PootleTranslationProjectsEndpoint		*mEndpoint;
-	BString									mUri;
-	BMessage								mData;
+	void		_EnsureData();
+	_Endpoint	*mEndpoint;
+	BString		mUri;
+	BMessage	mData;
 };
 
-class PootleTranslationProjectsEndpoint : public PootleEndpoint {
+class PootleTranslationProjectsEndpoint
+	: public PootleEndpoint<PootleTranslationProject> {
 public:
 	PootleTranslationProjectsEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "translation-projects/") {}
-		
-	typedef PootleTranslationProject Data;
-		
-	PootleTranslationProject				GetByUrl(BString);
-	PootleTranslationProject				GetById(int id);
-	BObjectList<PootleTranslationProject>	GetByList(BObjectList<BString>);
-
+		: PootleEndpoint<PootleTranslationProject>(pootle,
+			"translation-projects/") {}
 protected:
 	friend class PootleTranslationProject;
-		
-	PootleTranslationProject _get_from_cache(int);
-	PootleTranslationProject _get_from_cache(BString);
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleTranslationProject);
-	void _add_to_cache(BString, PootleTranslationProject);
-
-private:
-	static int _path_to_id(BString);
-	std::map<int, PootleTranslationProject> mLanguageEndpoints;
 };
 
 #endif

@@ -93,27 +93,28 @@ PootleProject::GetTranslationProject(int index)
 	mData.FindMessage("translation_projects", &projects);
 	BString str = projects.GetString(buffer, "");
 
-	return mEndpoint->mPootle->TranslationProjects()->GetByUrl(str);
+	return mEndpoint->API()->TranslationProjects()->GetByUrl(str);
 }
 
 
-BObjectList<BString>
-PootleProject::GetTranslationProjectUrls()
+BObjectList<PootleTranslationProject>
+PootleProject::TranslationProjects()
 {
-	BMessage projects;
-	mData.FindMessage("translation_projects", &projects);
+	BMessage tprojects;
+	mData.FindMessage("translation_projects", &tprojects);
 
-	BObjectList<BString> returnval(20, true);
+	BObjectList<BString> urls(20, true);
 	
-	int32 count = CountTranslationProjects();
-	BString indexer;
-	
+	int32 count = tprojects.CountNames(B_ANY_TYPE);
+
+	char buffer[33];
 	for (int32 i = 0; i < count; i++) {
-		indexer.SetToFormat("%d", i);
-		returnval.AddItem(new BString(projects.GetString(indexer, "")));
+		sprintf(buffer, "%d", i);
+		urls.AddItem(new BString(tprojects.GetString(buffer, "")));
 	}
 	
-	return returnval;
+	return mEndpoint->API()->TranslationProjects()->GetByList(urls);
+
 }
 
 
@@ -129,7 +130,7 @@ PootleLanguage
 PootleProject::SourceLanguage()
 {
 	_EnsureData();
-	return mEndpoint->mPootle->Languages()->GetByUrl(
+	return mEndpoint->API()->Languages()->GetByUrl(
 		mData.GetString("source_language", ""));
 }
 
@@ -144,7 +145,7 @@ PootleProject::_EnsureData()
 	mEndpoint->_add_to_cache(mUri, *this);
 }
 
-PootleProject::PootleProject(PootleProjectsEndpoint *endpoint, BMessage &data)
+PootleProject::PootleProject(_Endpoint *endpoint, BMessage &data)
 	:
 	mEndpoint(endpoint),
 	mData(data),
@@ -154,7 +155,7 @@ PootleProject::PootleProject(PootleProjectsEndpoint *endpoint, BMessage &data)
 }
 
 
-PootleProject::PootleProject(PootleProjectsEndpoint *endpoint, int id)
+PootleProject::PootleProject(_Endpoint *endpoint, int id)
 	:
 	mEndpoint(endpoint)
 {
@@ -164,7 +165,7 @@ PootleProject::PootleProject(PootleProjectsEndpoint *endpoint, int id)
 }
 
 
-PootleProject::PootleProject(PootleProjectsEndpoint *endpoint, BString uri)
+PootleProject::PootleProject(_Endpoint *endpoint, BString uri)
 	:
 	mEndpoint(endpoint),
 	mUri(uri)
@@ -199,73 +200,3 @@ PootleProjectsEndpoint::Get(int limit, int offset)
 	
 	return objectlist;
 }
-
-PootleProject
-PootleProjectsEndpoint::GetById(int id)
-{
-	return PootleProject(this, id);
-}
-
-
-PootleProject
-PootleProjectsEndpoint::GetByUrl(BString url)
-{
-	return PootleProject(this, url);
-}
-
-
-void
-PootleProjectsEndpoint::_add_to_cache(int id, PootleProject lang)
-{
-	mLanguageEndpoints[id] = lang;
-}
-
-
-int
-PootleProjectsEndpoint::_path_to_id(BString path)
-{
-	int32 index = path.FindLast("/", path.Length() - 2);
-	if (index < 0)
-		index = 0;
-	else
-		index += 1;
-
-	int id = atoi(path.String() + index);
-	return id;
-}
-
-
-void
-PootleProjectsEndpoint::_add_to_cache(BString path, PootleProject lang)
-{
-	_add_to_cache(_path_to_id(path), lang);
-}
-
-
-bool
-PootleProjectsEndpoint::_cache_contains(int id)
-{
-	return mLanguageEndpoints.count(id) != 0;
-}
-
-
-bool
-PootleProjectsEndpoint::_cache_contains(BString path)
-{
-	return _cache_contains(_path_to_id(path));
-}
-
-
-PootleProject
-PootleProjectsEndpoint::_get_from_cache(int id)
-{
-	return mLanguageEndpoints[id];
-}
-
-
-PootleProject
-PootleProjectsEndpoint::_get_from_cache(BString path)
-{
-	return _get_from_cache(_path_to_id(path));
-}
-

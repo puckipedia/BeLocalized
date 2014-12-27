@@ -21,65 +21,44 @@ struct Translation {
 
 class PootleUnit {
 public:
-	PootleUser			CommentedBy();
-	BString				CommentedOn();
-	BString				Context();
-	BString				DeveloperComment();
-	BString				Locations();
-	BString				MTime();
-	Translation			Source();
-	int					State();
-	PootleStore			Store();
-	BString				SubmittedOn();
-	PootleUser			SubmittedBy();
-	int					CountSuggestions();
-	PootleSuggestion	GetSuggestion(int);
-	Translation			Target();
-	BString				TranslatorComment();
+	typedef PootleEndpoint<PootleUnit> _Endpoint;
+	PootleUser						CommentedBy();
+	BString							CommentedOn();
+	BString							Context();
+	BString							DeveloperComment();
+	BString							Locations();
+	BString							MTime();
+	Translation						Source();
+	int								State();
+	PootleStore						Store();
+	BString							SubmittedOn();
+	PootleUser						SubmittedBy();
+	BObjectList<PootleSuggestion>	Suggestions();
+	int								CountSuggestions();
+	PootleSuggestion				GetSuggestion(int);
+	Translation						Target();
+	BString							TranslatorComment();
 
 	BString ResourceUri() { return mUri; }
 
 	PootleUnit() {}
-
-protected:
-	friend class PootleUnitsEndpoint;
-	PootleUnit(PootleUnitsEndpoint *, BMessage &);
-	PootleUnit(PootleUnitsEndpoint *, int);
-	PootleUnit(PootleUnitsEndpoint *, BString);
+	PootleUnit(_Endpoint *, BMessage &);
+	PootleUnit(_Endpoint *, int);
+	PootleUnit(_Endpoint *, BString);
 
 private:
-	void						_EnsureData();
-	PootleUnitsEndpoint		*mEndpoint;
-	BString						mUri;
-	BMessage					mData;
+	void			_EnsureData();
+	_Endpoint		*mEndpoint;
+	BString			mUri;
+	BMessage		mData;
 };
 
-class PootleUnitsEndpoint : public PootleEndpoint {
+class PootleUnitsEndpoint : public PootleEndpoint<PootleUnit> {
 public:
 	PootleUnitsEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "units/") {}
-
-	typedef PootleUnit Data;
-
-	PootleUnit					GetByUrl(BString);
-	PootleUnit					GetById(int id);
-	BObjectList<PootleUnit>		GetByList(BObjectList<BString>);
-
+		: PootleEndpoint<PootleUnit>(pootle, "units/") {}
 protected:
 	friend class PootleUnit;
-		
-	PootleUnit _get_from_cache(int);
-	PootleUnit _get_from_cache(BString);
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleUnit);
-	void _add_to_cache(BString, PootleUnit);
-
-private:
-	static int _path_to_id(BString);
-	std::map<int, PootleUnit> mLanguageEndpoints;
 };
 
 #endif

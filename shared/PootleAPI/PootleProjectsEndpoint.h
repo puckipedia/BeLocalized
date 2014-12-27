@@ -13,63 +13,44 @@ class PootleTranslationProject;
 
 class PootleProject {
 public:
-	BString						Backlink();
-	BString						CheckStyle();
-	BString						Code();
-	BString						Description();
-	BString						FullName();
-	BString						IgnoredFiles();
-	BString						LocalFileType();
-	BString						ResourceURI();
-	PootleLanguage				SourceLanguage();
-	int							CountTranslationProjects();
-	PootleTranslationProject	GetTranslationProject(int index);
-	BObjectList<BString>		GetTranslationProjectUrls();
-	BString						TreeStyle();
+	typedef	PootleEndpoint<PootleProject>	_Endpoint;
+
+	BString									Backlink();
+	BString									CheckStyle();
+	BString									Code();
+	BString									Description();
+	BString									FullName();
+	BString									IgnoredFiles();
+	BString									LocalFileType();
+	BString									ResourceURI();
+	PootleLanguage							SourceLanguage();
+	int										CountTranslationProjects();
+	PootleTranslationProject				GetTranslationProject(int index);
+	BObjectList<PootleTranslationProject>	TranslationProjects();
+	BString									TreeStyle();
 
 	BString ResourceUri() { return mUri; }
 
 	PootleProject() {}
-
-protected:
-	friend class PootleProjectsEndpoint;
-	PootleProject(PootleProjectsEndpoint *, BMessage &);
-	PootleProject(PootleProjectsEndpoint *, int);
-	PootleProject(PootleProjectsEndpoint *, BString);
+	PootleProject(_Endpoint *, BMessage &);
+	PootleProject(_Endpoint *, int);
+	PootleProject(_Endpoint *, BString);
 
 private:
-	void						_EnsureData();
-	PootleProjectsEndpoint		*mEndpoint;
-	BString						mUri;
-	BMessage					mData;
+	void		_EnsureData();
+	_Endpoint	*mEndpoint;
+	BString		mUri;
+	BMessage	mData;
 };
 
-class PootleProjectsEndpoint : public PootleEndpoint {
+class PootleProjectsEndpoint : public PootleEndpoint<PootleProject> {
 public:
 	PootleProjectsEndpoint(Pootle *pootle)
-		: PootleEndpoint(pootle, "projects/") {}
+		: PootleEndpoint<PootleProject>(pootle, "projects/") {}
 
-	typedef PootleProject Data;
-
-	BObjectList<PootleProject>	Get(int limit = -1, int offset = 0);
-	PootleProject				GetByUrl(BString);
-	PootleProject				GetById(int id);
-
+	BObjectList<PootleProject> Get(int limit = -1, int offset = 0);
 protected:
 	friend class PootleProject;
-		
-	PootleProject _get_from_cache(int);
-	PootleProject _get_from_cache(BString);
-
-	bool _cache_contains(int);
-	bool _cache_contains(BString);
-	
-	void _add_to_cache(int, PootleProject);
-	void _add_to_cache(BString, PootleProject);
-
-private:
-	static int _path_to_id(BString);
-	std::map<int, PootleProject> mLanguageEndpoints;
 };
 
 #endif

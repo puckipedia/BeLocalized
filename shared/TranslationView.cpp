@@ -18,6 +18,7 @@
 const int32 kMsgSuggest = 'Sgst';
 const int32 kMsgSetTranslation = 'Trns';
 const int32 kMsgSelectUnit = 'SelU';
+const int32 kMsgUpdateSelection = 'USel';
 
 class UnitItem : public BStringItem {
 public:
@@ -111,27 +112,53 @@ void
 TranslationView::HideTranslated(bool set)
 {
 	mHideTranslated = set;
+	_UpdateView();
+}
+
+
+void
+TranslationView::_UpdateView()
+{
 	UnitItem *u = (UnitItem *)mWordsView->ItemAt(mWordsView->CurrentSelection());
 
-	mWordsView->RemoveItems(0, mWordsView->CountItems());
+	int32 selection = -1;
 	int32 currentSelection = -1;
-
 	if (u)
-		currentSelection = u->UnitIndex() - 1;
+		currentSelection = u->UnitIndex();
 
-	int32 selection = 0;
+	mWordsView->RemoveItems(0, mWordsView->CountItems());
 
 	for (int32 i = 0; i < mStore->LoadedUnits(); i++) {
-		if (!set || mStore->UnitAt(i)->Translated().Length() == 0) {
+		if (!mHideTranslated || mStore->UnitAt(i)->Translated().Length() == 0) {
 			mWordsView->AddItem(new UnitItem(mStore->UnitAt(i)->Source(), i));
 			if (i == currentSelection) {
-				selection = mWordsView->CountItems();
+				selection = mWordsView->CountItems() - 1;
 			}
 		}
 	}
 
-	mWordsView->Select(selection);
+	if (mWordsView->CountItems() > 0 && selection >= 0) {
+		mWordsView->Select(selection);
+		mCurrentSelection = selection;
+	}
 }
+
+
+int32
+TranslationView::_IndexForIndex(int32 i)
+{
+	if (mCurrentSelection > 0) {
+		i = mCurrentSelection;
+		mCurrentSelection = 0;
+	}
+
+	UnitItem *u = (UnitItem *)mWordsView->ItemAt(i);
+	if (u == NULL)
+		return -1;
+
+	return u->UnitIndex();
+}
+
 
 void
 TranslationView::SetStore(TranslationStore *s)
@@ -184,7 +211,10 @@ TranslationView::MessageReceived(BMessage *msg)
 		break;
 	}
 	case kMsgSelectUnit: {
-		int index = ((UnitItem *)mWordsView->ItemAt(msg->GetInt32("index", 0)))->UnitIndex();
+		int32 index = _IndexForIndex(mWordsView->CurrentSelection());
+		if (index < 0)
+			break;
+
 		mUnit = mStore->UnitAt(index);
 		mSource->SetText(mUnit->Source());
 		mContext->SetText(mUnit->Context());
@@ -201,6 +231,7 @@ TranslationView::MessageReceived(BMessage *msg)
 			delete a;
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
+			_UpdateView();
 		}
 		break;
 	}
@@ -212,6 +243,7 @@ TranslationView::MessageReceived(BMessage *msg)
 			delete a;
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
+			_UpdateView();
 		}
 		break;
 	}

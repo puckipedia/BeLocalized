@@ -56,7 +56,7 @@ Pootle::RequestCompleted(BUrlRequest *caller, bool success)
 	BPrivate::BJson::Parse(msg, BString(mResponseData));
 	mData = msg;
 
-	BMessage testmsg = PootleEndpoint(this, "languages/")._SendRequest("GET", "schema/");
+	BMessage testmsg = mLanguages._SendRequest("GET", "schema/");
 
 	if (testmsg.GetInfo("_authfailed", NULL) != B_NAME_NOT_FOUND
 		|| mData.GetInfo("languages", NULL) == B_NAME_NOT_FOUND

@@ -17,7 +17,6 @@
 #include <UrlContext.h>
 #include <UrlProtocolListener.h>
 
-class PootleEndpoint;
 class PootleLanguagesEndpoint;
 
 const int32 kMsgPootleInited = 'PoIn';
@@ -50,7 +49,7 @@ public:
 protected:
 	BUrl mBaseUrl;
 	BUrlContext mContext;
-	friend class PootleEndpoint;
+	friend class _PootleBase;
 	
 	PootleLanguagesEndpoint mLanguages;
 	PootleProjectsEndpoint mProjects;

@@ -1,7 +1,7 @@
 #include "BeLocalizedApp.h"
 
 #include "LogInWindow.h"
-#include "PootleAPI/Pootle.h"
+#include "Pootle.h"
 #include "PootleMainWindow.h"
 
 #include <stdio.h>

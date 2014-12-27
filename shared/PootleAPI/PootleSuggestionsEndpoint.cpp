@@ -12,7 +12,7 @@ PootleUnit
 PootleSuggestion::Unit()
 {
 	_EnsureData();
-	return mEndpoint->mPootle->Units()->GetByUrl(
+	return mEndpoint->API()->Units()->GetByUrl(
 		mData.GetString("unit", ""));
 }
 
@@ -92,7 +92,7 @@ PootleSuggestion::_EnsureData()
 }
 
 PootleSuggestion::PootleSuggestion(
-	PootleSuggestionsEndpoint *endpoint, BMessage &data)
+	_Endpoint *endpoint, BMessage &data)
 	:
 	mEndpoint(endpoint),
 	mData(data),
@@ -103,7 +103,7 @@ PootleSuggestion::PootleSuggestion(
 
 
 PootleSuggestion::PootleSuggestion(
-	PootleSuggestionsEndpoint *endpoint, int id)
+	_Endpoint *endpoint, int id)
 	:
 	mEndpoint(endpoint)
 {
@@ -114,7 +114,7 @@ PootleSuggestion::PootleSuggestion(
 
 
 PootleSuggestion::PootleSuggestion(
-	PootleSuggestionsEndpoint *endpoint, BString uri)
+	_Endpoint *endpoint, BString uri)
 	:
 	mEndpoint(endpoint),
 	mUri(uri)
@@ -122,106 +122,3 @@ PootleSuggestion::PootleSuggestion(
 	if (mEndpoint->_cache_contains(uri))
 		*this = mEndpoint->_get_from_cache(uri);
 }
-
-
-PootleSuggestion
-PootleSuggestionsEndpoint::GetById(int id)
-{
-	return PootleSuggestion(this, id);
-}
-
-
-PootleSuggestion
-PootleSuggestionsEndpoint::GetByUrl(BString url)
-{
-	return PootleSuggestion(this, url);
-}
-
-
-BObjectList<PootleSuggestion>
-PootleSuggestionsEndpoint::GetByList(BObjectList<BString> list)
-{
-	BObjectList<PootleSuggestion> returnList(20, true);
-	char buffer[34];
-	
-	BString setUrl = mBaseEndpoint.Path() + "set/";
-	for (int32 i = 0; i < list.CountItems(); i++) {
-		BString *str = list.ItemAt(i);
-		sprintf(buffer, "%d;", _path_to_id(*str));
-		setUrl.Append(buffer);
-	}
-
-	setUrl.RemoveLast(";");
-	setUrl.Append("/");
-	
-	BMessage ret = _SendRequest("GET", setUrl);
-	BMessage objects;
-	ret.FindMessage("object", &objects);
-	int32 count = objects.CountNames(B_ANY_TYPE);
-	for (int32 i = 0; i < count; i++) {
-		sprintf(buffer, "%d", i);
-		BMessage msg;
-		objects.FindMessage(buffer, &msg);
-		returnList.AddItem(new PootleSuggestion(this, msg));
-	}
-	
-	return returnList;
-}
-
-
-void
-PootleSuggestionsEndpoint::_add_to_cache(int id, PootleSuggestion lang)
-{
-	mLanguageEndpoints[id] = lang;
-}
-
-
-int
-PootleSuggestionsEndpoint::_path_to_id(BString path)
-{
-	int32 index = path.FindLast("/", path.Length() - 2);
-	if (index < 0)
-		index = 0;
-	else
-		index += 1;
-
-	int id = atoi(path.String() + index);
-	return id;
-}
-
-
-void
-PootleSuggestionsEndpoint::_add_to_cache(BString path,
-	PootleSuggestion lang)
-{
-	_add_to_cache(_path_to_id(path), lang);
-}
-
-
-bool
-PootleSuggestionsEndpoint::_cache_contains(int id)
-{
-	return mLanguageEndpoints.count(id) != 0;
-}
-
-
-bool
-PootleSuggestionsEndpoint::_cache_contains(BString path)
-{
-	return _cache_contains(_path_to_id(path));
-}
-
-
-PootleSuggestion
-PootleSuggestionsEndpoint::_get_from_cache(int id)
-{
-	return mLanguageEndpoints[id];
-}
-
-
-PootleSuggestion
-PootleSuggestionsEndpoint::_get_from_cache(BString path)
-{
-	return _get_from_cache(_path_to_id(path));
-}
-
