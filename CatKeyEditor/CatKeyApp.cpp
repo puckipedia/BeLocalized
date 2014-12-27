@@ -5,47 +5,79 @@
 #include "TranslationWindow.h"
 
 #include <Archivable.h>
+#include <Entry.h>
 #include <File.h>
 #include <LayoutBuilder.h>
 #include <Message.h>
 #include <Messenger.h>
+#include <Path.h>
 #include <Rect.h>
 #include <String.h>
 #include <Window.h>
 
 #include <stdio.h>
 
+
 void
-CatKeyApp::ReadyToRun()
+CatKeyApp::_OpenWindow(BString path)
 {
-	TranslationWindow *w = new TranslationWindow(BRect(0, 0, 680, 480));
-	w->CenterOnScreen();
+	printf("Opening window to %s\n", path.String());
+	TranslationWindow *window = new TranslationWindow(BRect(0, 0, 680, 480));
+	window->CenterOnScreen();
 
-	TranslationView *v = w->Translation();
-	BMessenger m(v);
-	CatKeyStore *s = new CatKeyStore("/boot/home/nl.catkeys", m, kMsgGotUnit);
-	w->SetTitle(s->Title());
-	v->SetStore(s);
-	v->HideTranslated(true);
-	s->StartLoading();
-	w->Show();
-
-	printf("Got %d units\n", s->TotalUnits());
+	TranslationView *view = window->Translation();
+	BMessenger messenger(view);
+	CatKeyStore *store = new CatKeyStore(path, messenger, kMsgGotUnit);
+	window->SetTitle(store->Title());
+	view->SetStore(store);
+	view->HideTranslated(true);
+	store->StartLoading();
+	window->Show();
+	mOpenWindows++;	
 }
 
 
 void
+CatKeyApp::ReadyToRun()
+{
+	if (mOpenWindows == 0)
+		Quit();
+}
+
+void
+CatKeyApp::ArgvReceived(int argc, char **argv)
+{
+	printf("%d\n", argc);
+	for (int i = 1; i < argc; i++)
+		_OpenWindow(argv[i]);
+}
+
+void
 CatKeyApp::MessageReceived(BMessage *msg)
 {
-	if (msg->what == 'ABCD') {
-		TranslationUnit *u;
-		if (msg->FindPointer("unit", (void **)&u) != B_OK) {
-			printf("Done.\n");
+	if (msg->what == kMsgWindowClosed) {
+		mOpenWindows--;
+		if (mOpenWindows == 0)
 			Quit();
-		} else
-			printf("'%s', '%s': '%s'\n", u->Source().String(), u->Context().String(), u->Translated().String());
 	} else {
 		msg->PrintToStream();
 		BApplication::MessageReceived(msg);
+	}
+}
+
+
+void
+CatKeyApp::RefsReceived(BMessage *refs)
+{
+	int32 count;
+	refs->GetInfo("refs", NULL, &count);
+
+	for (int32 i = 0; i < count; i++) {
+		entry_ref ref;
+		refs->FindRef("refs", i, &ref);
+		BEntry e(&ref);
+		BPath p;
+		e.GetPath(&p);
+		_OpenWindow(p.Path());
 	}
 }

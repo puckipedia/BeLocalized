@@ -5,10 +5,16 @@
 
 class CatKeyApp : public BApplication {
 public:
-	CatKeyApp() : BApplication("application/x-puckipedia.CatKeyEditor") {}
+	CatKeyApp() : BApplication("application/x-puckipedia.CatKeyEditor"),
+		mOpenWindows(0) {}
 
+	void	ArgvReceived(int, char **);
 	void	ReadyToRun();
 	void	MessageReceived(BMessage *);
+	void	RefsReceived(BMessage *);
+private:
+	int32	mOpenWindows;
+	void	_OpenWindow(BString);
 };
 
 #endif

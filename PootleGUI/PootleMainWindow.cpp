@@ -96,7 +96,6 @@ GetStores(void *data) {
 void
 PootleMainWindow::MessageReceived(BMessage *msg)
 {
-	msg->PrintToStream();
 	switch(msg->what) {
 	case kMsgGotProject: {
 		int32 index = msg->GetInt32("index", -1);

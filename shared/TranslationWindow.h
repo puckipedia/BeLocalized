@@ -5,6 +5,8 @@
 
 class TranslationView;
 
+const int32 kMsgWindowClosed = 'WINC';
+
 class TranslationWindow : public BWindow {
 public:
 					 TranslationWindow(BRect);

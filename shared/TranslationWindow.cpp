@@ -2,6 +2,7 @@
 
 #include "TranslationView.h"
 
+#include <Application.h>
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
@@ -43,6 +44,8 @@ TranslationWindow::MessageReceived(BMessage *msg)
 	if (msg->what == kMsgHideTranslated) {
 		mView->HideTranslated(!mView->HidesTranslated());
 		mHideTranslated->SetMarked(mView->HidesTranslated());
+	} else if(msg->what == B_QUIT_REQUESTED) {
+		be_app->PostMessage(kMsgWindowClosed);
 	} else {
 		BWindow::MessageReceived(msg);
 	}
