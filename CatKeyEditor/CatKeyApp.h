@@ -8,7 +8,7 @@ public:
 	CatKeyApp() : BApplication("application/x-puckipedia.CatKeyEditor"),
 		mOpenWindows(0) {}
 
-	void	ArgvReceived(int, char **);
+	void	ArgvReceived(int32, char **);
 	void	ReadyToRun();
 	void	MessageReceived(BMessage *);
 	void	RefsReceived(BMessage *);

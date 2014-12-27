@@ -13,6 +13,7 @@ public:
 	TranslationView	*Translation();
 	
 	void			 MessageReceived(BMessage *);
+	bool			 QuitRequested();
 
 private:
 	TranslationView	*mView;

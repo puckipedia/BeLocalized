@@ -180,6 +180,7 @@ TranslationView::SetStore(TranslationStore *s)
 		mSuggest->MakeDefault(true);
 	}
 	
+	mHideTranslated = false;
 	mReceivedUnits = 0;
 }
 

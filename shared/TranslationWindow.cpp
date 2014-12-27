@@ -16,6 +16,7 @@ TranslationWindow::TranslationWindow(BRect rect)
 	BWindow(rect, "BeLocalized", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	mView = new TranslationView();
+
 	mMenu = new BMenuBar("menu bar");
 	mHideTranslated = new BMenuItem("Hide Translated", new BMessage(kMsgHideTranslated));
 
@@ -38,14 +39,19 @@ TranslationWindow::Translation()
 }
 
 
+bool
+TranslationWindow::QuitRequested()
+{
+	be_app->PostMessage(kMsgWindowClosed);
+	return BWindow::QuitRequested();
+}
+
 void
 TranslationWindow::MessageReceived(BMessage *msg)
 {
 	if (msg->what == kMsgHideTranslated) {
 		mView->HideTranslated(!mView->HidesTranslated());
 		mHideTranslated->SetMarked(mView->HidesTranslated());
-	} else if(msg->what == B_QUIT_REQUESTED) {
-		be_app->PostMessage(kMsgWindowClosed);
 	} else {
 		BWindow::MessageReceived(msg);
 	}

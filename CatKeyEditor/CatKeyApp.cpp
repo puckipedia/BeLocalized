@@ -21,7 +21,6 @@
 void
 CatKeyApp::_OpenWindow(BString path)
 {
-	printf("Opening window to %s\n", path.String());
 	TranslationWindow *window = new TranslationWindow(BRect(0, 0, 680, 480));
 	window->CenterOnScreen();
 
@@ -30,7 +29,6 @@ CatKeyApp::_OpenWindow(BString path)
 	CatKeyStore *store = new CatKeyStore(path, messenger, kMsgGotUnit);
 	window->SetTitle(store->Title());
 	view->SetStore(store);
-	view->HideTranslated(true);
 	store->StartLoading();
 	window->Show();
 	mOpenWindows++;	
@@ -45,9 +43,8 @@ CatKeyApp::ReadyToRun()
 }
 
 void
-CatKeyApp::ArgvReceived(int argc, char **argv)
+CatKeyApp::ArgvReceived(int32 argc, char **argv)
 {
-	printf("%d\n", argc);
 	for (int i = 1; i < argc; i++)
 		_OpenWindow(argv[i]);
 }
