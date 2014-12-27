@@ -48,6 +48,7 @@ public:
 
 	PootleStore					GetByUrl(BString);
 	PootleStore					GetById(int id);
+	BObjectList<PootleStore>	GetByList(BObjectList<BString>);
 protected:
 	friend class PootleStore;
 		

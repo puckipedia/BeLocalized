@@ -54,6 +54,7 @@ public:
 	BObjectList<PootleProject>	Get(int limit = -1, int offset = 0);
 	PootleProject				GetByUrl(BString);
 	PootleProject				GetById(int id);
+
 protected:
 	friend class PootleProject;
 		

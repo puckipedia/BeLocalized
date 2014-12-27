@@ -50,6 +50,8 @@ public:
 
 	PootleSuggestion					GetByUrl(BString);
 	PootleSuggestion					GetById(int id);
+	BObjectList<PootleSuggestion>		GetByList(BObjectList<BString>);
+
 protected:
 	friend class PootleSuggestion;
 		

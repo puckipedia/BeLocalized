@@ -131,6 +131,37 @@ PootleTranslationProjectsEndpoint::GetByUrl(BString url)
 }
 
 
+BObjectList<PootleTranslationProject>
+PootleTranslationProjectsEndpoint::GetByList(BObjectList<BString> list)
+{
+	BObjectList<PootleTranslationProject> returnList(20, true);
+	char buffer[34];
+	
+	BString setUrl = mBaseEndpoint.Path() + "set/";
+	for (int32 i = 0; i < list.CountItems(); i++) {
+		BString *str = list.ItemAt(i);
+		sprintf(buffer, "%d;", _path_to_id(*str));
+		setUrl.Append(buffer);
+	}
+
+	setUrl.RemoveLast(";");
+	setUrl.Append("/");
+	
+	BMessage ret = _SendRequest("GET", setUrl);
+	BMessage objects;
+	ret.FindMessage("object", &objects);
+	int32 count = objects.CountNames(B_ANY_TYPE);
+	for (int32 i = 0; i < count; i++) {
+		sprintf(buffer, "%d", i);
+		BMessage msg;
+		objects.FindMessage(buffer, &msg);
+		returnList.AddItem(new PootleTranslationProject(this, msg));
+	}
+	
+	return returnList;
+}
+
+
 void
 PootleTranslationProjectsEndpoint::_add_to_cache(int id, PootleTranslationProject lang)
 {

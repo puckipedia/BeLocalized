@@ -48,6 +48,8 @@ public:
 		
 	PootleTranslationProject				GetByUrl(BString);
 	PootleTranslationProject				GetById(int id);
+	BObjectList<PootleTranslationProject>	GetByList(BObjectList<BString>);
+
 protected:
 	friend class PootleTranslationProject;
 		

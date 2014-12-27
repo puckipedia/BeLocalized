@@ -63,6 +63,8 @@ public:
 
 	PootleUnit					GetByUrl(BString);
 	PootleUnit					GetById(int id);
+	BObjectList<PootleUnit>		GetByList(BObjectList<BString>);
+
 protected:
 	friend class PootleUnit;
 		

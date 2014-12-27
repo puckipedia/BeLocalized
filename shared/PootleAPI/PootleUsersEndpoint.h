@@ -25,9 +25,9 @@ public:
 
 protected:
 	friend class PootleUsersEndpoint;
-	PootleUser(PootleUsersEndpoint *, BMessage &);
 	PootleUser(PootleUsersEndpoint *, int);
 	PootleUser(PootleUsersEndpoint *, BString);
+	PootleUser(PootleUsersEndpoint *, BMessage &);
 
 private:
 	void						_EnsureData();
@@ -45,6 +45,8 @@ public:
 
 	PootleUser					GetByUrl(BString);
 	PootleUser					GetById(int id);
+	BObjectList<PootleUser>		GetByList(BObjectList<BString>);
+
 protected:
 	friend class PootleUser;
 		

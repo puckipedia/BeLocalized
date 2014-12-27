@@ -209,6 +209,37 @@ PootleUnitsEndpoint::GetByUrl(BString url)
 }
 
 
+BObjectList<PootleUnit>
+PootleUnitsEndpoint::GetByList(BObjectList<BString> list)
+{
+	BObjectList<PootleUnit> returnList(20, true);
+	char buffer[34];
+	
+	BString setUrl = mBaseEndpoint.Path() + "set/";
+	for (int32 i = 0; i < list.CountItems(); i++) {
+		BString *str = list.ItemAt(i);
+		sprintf(buffer, "%d;", _path_to_id(*str));
+		setUrl.Append(buffer);
+	}
+
+	setUrl.RemoveLast(";");
+	setUrl.Append("/");
+	
+	BMessage ret = _SendRequest("GET", setUrl);
+	BMessage objects;
+	ret.FindMessage("object", &objects);
+	int32 count = objects.CountNames(B_ANY_TYPE);
+	for (int32 i = 0; i < count; i++) {
+		sprintf(buffer, "%d", i);
+		BMessage msg;
+		objects.FindMessage(buffer, &msg);
+		returnList.AddItem(new PootleUnit(this, msg));
+	}
+	
+	return returnList;
+}
+
+
 void
 PootleUnitsEndpoint::_add_to_cache(int id, PootleUnit lang)
 {
