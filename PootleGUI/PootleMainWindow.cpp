@@ -22,7 +22,8 @@ const int32 kMsgToggleTranslated = 'ToTr';
 
 PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 	:
-	BWindow(rect, "BeLocalized", B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
+	BWindow(rect, "BeLocalized", B_TITLED_WINDOW,
+		B_AUTO_UPDATE_SIZE_LIMITS | B_QUIT_ON_WINDOW_CLOSE),
 	mPootle(pootle),
 	mCurrentTranslationGet(NULL),
 	mCurrentStoreGet(NULL)
