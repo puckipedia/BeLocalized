@@ -4,6 +4,7 @@
 
 #include <Alert.h>
 #include <Button.h>
+#include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListView.h>
 #include <Message.h>
@@ -11,6 +12,7 @@
 #include <SpaceLayoutItem.h>
 #include <StringItem.h>
 #include <StringView.h>
+#include <TextControl.h>
 #include <TextView.h>
 
 #include <stdio.h>
@@ -19,6 +21,8 @@ const int32 kMsgSuggest = 'Sgst';
 const int32 kMsgSetTranslation = 'Trns';
 const int32 kMsgSelectUnit = 'SelU';
 const int32 kMsgUpdateSelection = 'USel';
+
+const int32 kMsgUpdateView = 'UVuw';
 
 class UnitItem : public BStringItem {
 public:
@@ -59,12 +63,24 @@ TranslationView::TranslationView()
 	mSetAsTranslation = new BButton("set translation", "Set as translation",
 		new BMessage(kMsgSetTranslation));
 
+	mSearchControl = new BTextControl("Search for:", "", new BMessage(kMsgUpdateView));
+	mSearchControl->SetModificationMessage(new BMessage(kMsgUpdateView));
+
+	mHideTranslatedCheckbox = new BCheckBox("Hide Translated", new BMessage(kMsgUpdateView));
+
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
 	BSplitView *v = 
 		BLayoutBuilder::Split<>(B_VERTICAL)
 			.SetInsets(B_USE_WINDOW_INSETS)
-			.Add(mWordsScrollView)
+			.AddGroup(B_VERTICAL)
+				.AddGroup(B_HORIZONTAL)
+					.Add(mHideTranslatedCheckbox)
+					.AddGlue()
+					.Add(mSearchControl)
+				.End()
+				.Add(mWordsScrollView)
+			.End()
 			.AddGroup(B_HORIZONTAL)
 				.AddGroup(B_VERTICAL)
 					.AddGroup(B_HORIZONTAL)
@@ -112,6 +128,8 @@ void
 TranslationView::HideTranslated(bool set)
 {
 	mHideTranslated = set;
+	mHideTranslatedCheckbox->SetValue(set ? B_CONTROL_ON : B_CONTROL_OFF);
+
 	_UpdateView();
 }
 
@@ -129,7 +147,7 @@ TranslationView::_UpdateView()
 	mWordsView->RemoveItems(0, mWordsView->CountItems());
 
 	for (int32 i = 0; i < mStore->LoadedUnits(); i++) {
-		if (!mHideTranslated || mStore->UnitAt(i)->Translated().Length() == 0) {
+		if (_Filter(mStore->UnitAt(i))) {
 			mWordsView->AddItem(new UnitItem(mStore->UnitAt(i)->Source(), i));
 			if (i == currentSelection) {
 				selection = mWordsView->CountItems() - 1;
@@ -141,6 +159,22 @@ TranslationView::_UpdateView()
 		mWordsView->Select(selection);
 		mCurrentSelection = selection;
 	}
+}
+
+
+bool
+TranslationView::_Filter(TranslationUnit *unit)
+{
+	BString translated = unit->Translated();
+	BString text = unit->Source();
+	BString searchText = mSearchControl->Text();
+	if (mHideTranslated && translated.Length() > 0)
+		return false;
+
+	if (text.IFindFirst(searchText) < 0 && translated.IFindFirst(searchText) < 0)
+		return false;
+	
+	return true;
 }
 
 
@@ -180,8 +214,8 @@ TranslationView::SetStore(TranslationStore *s)
 		mSuggest->MakeDefault(true);
 	}
 	
-	mHideTranslated = false;
 	mReceivedUnits = 0;
+	_UpdateView();
 }
 
 void
@@ -190,6 +224,8 @@ TranslationView::AttachedToWindow()
 	mWordsView->SetTarget(this);
 	mSuggest->SetTarget(this);
 	mSetAsTranslation->SetTarget(this);
+	mSearchControl->SetTarget(this);
+	mHideTranslatedCheckbox->SetTarget(this);
 }
 
 void
@@ -202,7 +238,7 @@ TranslationView::MessageReceived(BMessage *msg)
 			break;
 		}
 
-		if (!mHideTranslated || u->Translated().Length() == 0) {
+		if (_Filter(u)) {
 			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits));
 			if (mWordsView->CurrentSelection() == -1)
 				mWordsView->Select(0);
@@ -248,6 +284,12 @@ TranslationView::MessageReceived(BMessage *msg)
 		}
 		break;
 	}
+	case kMsgUpdateView: {
+		mHideTranslated = mHideTranslatedCheckbox->Value() == B_CONTROL_ON;
+		_UpdateView();
+		break;
+	}
+
 	default:
 		BView::MessageReceived(msg);
 	}

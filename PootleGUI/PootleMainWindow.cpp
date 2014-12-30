@@ -8,9 +8,6 @@
 #include <LayoutBuilder.h>
 #include <ListView.h>
 #include <ScrollView.h>
-#include <Menu.h>
-#include <MenuBar.h>
-#include <MenuItem.h>
 #include <Message.h>
 
 const int32 kMsgGotProject = 'pRoJ';
@@ -18,7 +15,6 @@ const int32 kMsgGotDataForProject = 'PrOj';
 const int32 kMsgTranslationProjectChosen = 'TrPr';
 const int32 kMsgGotStores = 'StRs';
 const int32	kMsgChoseStore = 'ChSt';
-const int32 kMsgToggleTranslated = 'ToTr';
 
 PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 	:
@@ -39,22 +35,15 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 	mStoresView = new BListView("stores");
 	mStoresView->SetSelectionMessage(new BMessage(kMsgChoseStore));
 
-	BMenuBar *translationMenu = new BMenuBar("translation menu");
-	BMenu *menu = new BMenu("Options");
-	BMenuItem *menuitem = new BMenuItem(menu);
-	mShowTranslated = new BMenuItem("Hide Translated", new BMessage(kMsgToggleTranslated));
-	menu->AddItem(mShowTranslated);
-	translationMenu->AddItem(menuitem);
-
 	BLayoutBuilder::Group<>(this)
 		.SetInsets(B_USE_WINDOW_INSETS)
-		.Add(new BScrollView("projects scroller", mProjectsView, 0, false, true), 0.2f)
-		.Add(new BScrollView("translation projects scroller", mTranslationProjectsView, 0, false, true), 0.2f)
 		.AddSplit(B_HORIZONTAL, 1.0f)
-			.Add(new BScrollView("stores scroller", mStoresView, 0, false, true))
 			.AddGroup(B_VERTICAL)
-				.Add(translationMenu)
-				.Add(mTranslationView);
+				.Add(new BScrollView("projects scroller", mProjectsView, 0, false, true), 0.2f)
+				.Add(new BScrollView("translation projects scroller", mTranslationProjectsView, 0, false, true), 0.2f)
+				.Add(new BScrollView("stores scroller", mStoresView, 0, false, true), 0.2f)
+			.End()
+			.Add(mTranslationView);
 	
 	mProjects = mPootle->Projects()->Get();
 	for (int32 i = 0; i < mProjects.CountItems(); i++) {
@@ -174,12 +163,6 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		
 		mTranslationView->SetStore(s);
 		s->StartLoading();
-		break;
-	}
-	
-	case kMsgToggleTranslated: {
-		mTranslationView->HideTranslated(!mTranslationView->HidesTranslated());
-		mShowTranslated->SetMarked(mTranslationView->HidesTranslated());
 		break;
 	}
 	default:

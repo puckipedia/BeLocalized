@@ -42,7 +42,6 @@ private:
 	BListView		*mTranslationProjectsView;
 	BListView		*mStoresView;
 
-	BMenuItem		*mShowTranslated;
 	TranslationView	*mTranslationView;
 };
 

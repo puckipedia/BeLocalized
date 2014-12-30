@@ -9,7 +9,7 @@ const int32 kMsgWindowClosed = 'WINC';
 
 class TranslationWindow : public BWindow {
 public:
-					 TranslationWindow(BRect);
+					 TranslationWindow(BRect, uint32 = 0);
 	TranslationView	*Translation();
 	
 	void			 MessageReceived(BMessage *);
@@ -17,9 +17,6 @@ public:
 
 private:
 	TranslationView	*mView;
-	
-	BMenuBar		*mMenu;
-	BMenuItem		*mHideTranslated;
 };
 
 #endif

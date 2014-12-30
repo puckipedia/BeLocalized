@@ -4,10 +4,12 @@
 #include <View.h>
 
 class BButton;
+class BCheckBox;
 class BGroupLayout;
 class BListView;
 class BScrollView;
 class BStringView;
+class BTextControl;
 class BTextView;
 
 class TranslationStore;
@@ -28,6 +30,7 @@ public:
 
 private:
 	void				 _UpdateView();
+	bool				 _Filter(TranslationUnit *);
 	int32				 _IndexForIndex(int32);
 
 	bool				 mHideTranslated;
@@ -54,6 +57,9 @@ private:
 	BGroupLayout		*mButtonsLayout;
 	BButton				*mSuggest;
 	BButton				*mSetAsTranslation;
+
+	BTextControl		*mSearchControl;
+	BCheckBox			*mHideTranslatedCheckbox;
 
 	TranslationStore	*mStore;
 	TranslationUnit		*mUnit;
