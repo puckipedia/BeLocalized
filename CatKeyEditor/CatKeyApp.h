@@ -5,8 +5,11 @@
 
 class CatKeyApp : public BApplication {
 public:
-	CatKeyApp() : BApplication("application/x-puckipedia.CatKeyEditor"),
-		mOpenWindows(0) {}
+	CatKeyApp(const char *a)
+		:
+		BApplication("application/x-puckipedia.CatKeyEditor"),
+		mOpenWindows(0),
+		mCalledAs(a) {}
 
 	void	ArgvReceived(int32, char **);
 	void	ReadyToRun();
@@ -15,6 +18,7 @@ public:
 private:
 	int32	mOpenWindows;
 	void	_OpenWindow(BString);
+	const char *mCalledAs;
 };
 
 #endif

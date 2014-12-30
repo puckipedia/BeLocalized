@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-	CatKeyApp().Run();
+	CatKeyApp(*argv).Run();
 	
 	return 0;
 }

@@ -38,8 +38,10 @@ CatKeyApp::_OpenWindow(BString path)
 void
 CatKeyApp::ReadyToRun()
 {
-	if (mOpenWindows == 0)
+	if (mOpenWindows == 0) {
+		fprintf(stderr, "Usage: %s [file] [file] [...]\n", mCalledAs);
 		Quit();
+	}
 }
 
 void
