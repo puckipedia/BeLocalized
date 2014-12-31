@@ -19,7 +19,7 @@ public:
 		auth_failed(0),
 		semaphore(create_sem(0, "url request semaphore")) { }
 
-	~SynchronousDataCollected()
+	~SynchronousDataCollector()
 	{
 		delete_sem(semaphore);
 	}
@@ -239,7 +239,8 @@ _PootleBase::_SendRequest(const char *method, const char *name,
 		BJson::Parse(msg, collector->data);
 
 	r->Stop();
-	collector->Quit();
+
+	delete collector;
 	delete r;
 	return msg;
 }
