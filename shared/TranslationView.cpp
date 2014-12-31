@@ -70,6 +70,15 @@ TranslationView::TranslationView()
 
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
+	mDevCommentView =
+		BLayoutBuilder::Group<>(B_VERTICAL)
+			.AddGroup(B_HORIZONTAL)
+				.Add(mDeveloperCommentLabel)
+				.AddGlue()
+			.End()
+			.Add(mDeveloperCommentScroll).View();
+
+
 	BSplitView *v = 
 		BLayoutBuilder::Split<>(B_VERTICAL)
 			.SetInsets(B_USE_WINDOW_INSETS)
@@ -88,11 +97,7 @@ TranslationView::TranslationView()
 						.AddGlue()
 					.End()
 					.Add(mSourceScroll)
-					.AddGroup(B_HORIZONTAL)
-						.Add(mDeveloperCommentLabel)
-						.AddGlue()
-					.End()
-					.Add(mDeveloperCommentScroll)
+					.Add(mDevCommentView)
 					.AddGroup(B_HORIZONTAL)
 						.Add(mContextLabel)
 						.Add(mContext)
@@ -115,6 +120,8 @@ TranslationView::TranslationView()
 	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL)
 		.Add(v);
+
+	mDevCommentView->Hide();
 
 	mWordsView->SetSelectionMessage(new BMessage(kMsgSelectUnit));
 	mContextLabel->SetFont(be_bold_font);
@@ -237,6 +244,11 @@ TranslationView::MessageReceived(BMessage *msg)
 		if (msg->FindPointer("unit", (void **)&u) != B_OK) {
 			break;
 		}
+		
+		TranslationStore *s;
+		msg->FindPointer("store", (void **)&s);
+		if (s != mStore)
+			break;
 
 		if (_Filter(u)) {
 			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits));
@@ -257,6 +269,11 @@ TranslationView::MessageReceived(BMessage *msg)
 		mContext->SetText(mUnit->Context());
 		mDeveloperComment->SetText(mUnit->DeveloperComment());
 		mTranslated->SetText(mUnit->Translated());
+		if (mUnit->DeveloperComment().Length() == 0)
+			mDevCommentView->Hide();
+		else
+			mDevCommentView->Show();
+
 		mWordsView->ScrollToSelection();
 		break;
 	}
