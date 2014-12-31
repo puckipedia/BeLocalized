@@ -19,6 +19,11 @@ public:
 		auth_failed(0),
 		semaphore(create_sem(0, "url request semaphore")) { }
 
+	~SynchronousDataCollected()
+	{
+		delete_sem(semaphore);
+	}
+
 	void
 	DataReceived(BUrlRequest *caller, const char *recv_data,
 		off_t position, ssize_t size)
@@ -193,12 +198,12 @@ BMessage
 _PootleBase::_SendRequest(const char *method, const char *name,
 	BMessage &data)
 {
-	SynchronousDataCollector collector;
+	SynchronousDataCollector *collector = new SynchronousDataCollector();
 	BUrl endpointUrl(mBaseEndpoint, name);
 	BString data_str;
 
 	BUrlRequest *r = BUrlProtocolRoster::MakeRequest(
-		endpointUrl, &collector, &mPootle->mContext);
+		endpointUrl, collector, &mPootle->mContext);
 
 	BHttpRequest *hr = dynamic_cast<BHttpRequest *>(r);
 	if (hr) {
@@ -219,21 +224,22 @@ _PootleBase::_SendRequest(const char *method, const char *name,
 	}
 
 	r->Run();
-	acquire_sem(collector.semaphore);
+	acquire_sem(collector->semaphore);
 	
 	BMessage msg;
-	if (collector.auth_failed > 3) {
+	if (collector->auth_failed) {
 		msg.AddBool("_authfailed", true);
 	}
 
-	if (collector.dataSize == 0)
+	if (collector->dataSize == 0)
 		msg.AddString("_location", ((BHttpResult &)hr->Result()).Headers().HeaderValue("Location"));
 	else if(((BHttpResult &)hr->Result()).StatusCode() == 500)
 		debugger("500 returned!");
 	else
-		BJson::Parse(msg, collector.data);
+		BJson::Parse(msg, collector->data);
 
 	r->Stop();
+	collector->Quit();
 	delete r;
 	return msg;
 }
