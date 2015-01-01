@@ -60,6 +60,8 @@ private:
 
 	BTextControl		*mSearchControl;
 	BCheckBox			*mHideTranslatedCheckbox;
+	
+	BView				*mDevCommentView;
 
 	TranslationStore	*mStore;
 	TranslationUnit		*mUnit;
