@@ -6,6 +6,7 @@
 #include <Window.h>
 
 class BListView;
+class BMenu;
 class Pootle;
 class PootleProject;
 class PootleStore;
@@ -39,8 +40,9 @@ private:
 	AsyncStoreGet *mCurrentStoreGet;
 
 	BListView		*mProjectsView;
-	BListView		*mTranslationProjectsView;
 	BListView		*mStoresView;
+	BMenu			*mLanguagesMenu;
+	int32			 mSelectedLanguage;
 
 	TranslationView	*mTranslationView;
 };

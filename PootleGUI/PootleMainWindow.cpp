@@ -7,6 +7,10 @@
 
 #include <LayoutBuilder.h>
 #include <ListView.h>
+#include <LocaleRoster.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
 #include <ScrollView.h>
 #include <Message.h>
 
@@ -27,20 +31,22 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 	mProjectsView = new BListView("projects");
 	mProjectsView->SetSelectionMessage(new BMessage(kMsgGotProject));
 
-	mTranslationProjectsView = new BListView("translation projects");
-	mTranslationProjectsView->SetSelectionMessage(new BMessage(kMsgTranslationProjectChosen));
-
 	mTranslationView = new TranslationView();
 
 	mStoresView = new BListView("stores");
 	mStoresView->SetSelectionMessage(new BMessage(kMsgChoseStore));
 
-	BLayoutBuilder::Group<>(this)
-		.SetInsets(B_USE_WINDOW_INSETS)
+	mLanguagesMenu = new BMenu("Languages");
+	BMenuBar *topMenu = new BMenuBar("menu");
+	topMenu->AddItem(mLanguagesMenu);
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(topMenu)
 		.AddSplit(B_HORIZONTAL, 1.0f)
-			.AddGroup(B_VERTICAL)
+			.AddSplit(B_VERTICAL)
+				.SetInsets(B_USE_WINDOW_INSETS)
 				.Add(new BScrollView("projects scroller", mProjectsView, 0, false, true), 0.2f)
-				.Add(new BScrollView("translation projects scroller", mTranslationProjectsView, 0, false, true), 0.2f)
 				.Add(new BScrollView("stores scroller", mStoresView, 0, false, true), 0.2f)
 			.End()
 			.Add(mTranslationView);
@@ -104,15 +110,21 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 			"translation project getter", B_NORMAL_PRIORITY, g);
 		resume_thread(t);
 
-		mTranslationProjectsView->RemoveItems(0, mTranslationProjectsView->CountItems());
-		mTranslationProjectsView->AddItem(new BStringItem("Loading..."));
+		mLanguagesMenu->RemoveItems(0, mLanguagesMenu->CountItems());
+		mLanguagesMenu->AddItem(new BMenuItem("Loading...", NULL));
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
+		mStoresView->AddItem(new BStringItem("Loading..."));
 		break;
 	}
 	case kMsgTranslationProjectChosen: {
 		int32 index = msg->GetInt32("index", -1);
 		if (index < 0 || mCurrentTranslationGet)
 			break;
+
+		mLanguagesMenu->ItemAt(mSelectedLanguage)->SetMarked(false);
+		mSelectedLanguage = index;
+		mLanguagesMenu->ItemAt(mSelectedLanguage)->SetMarked(true);
+
 		PootleTranslationProject *p = mTranslationProjects.ItemAt(index);
 		AsyncStoreGet *g = new AsyncStoreGet();
 		g->project = p;
@@ -135,12 +147,32 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		msg->FindPointer("data", (void **)&projects);
 		mTranslationProjects = *projects;
 		delete projects;
-		mTranslationProjectsView->RemoveItems(0, mTranslationProjectsView->CountItems());
+
+		BString preferredLanguage = "en";
+		BLocaleRoster* localeRoster = BLocaleRoster::Default();
+		if (localeRoster != NULL) {
+			BMessage preferredLanguages;
+			if (localeRoster->GetPreferredLanguages(&preferredLanguages) == B_OK) {
+				preferredLanguages.FindString("language", 0, &preferredLanguage);
+			}
+		}
+
+		mLanguagesMenu->RemoveItems(0, mLanguagesMenu->CountItems());
 		for (int32 i = 0; i < mTranslationProjects.CountItems(); i++) {
 			PootleTranslationProject *p = mTranslationProjects.ItemAt(i);
-			mTranslationProjectsView->AddItem(new BStringItem(p->Language().FullName()));
+			BMessage *msg = new BMessage(kMsgTranslationProjectChosen);
+			msg->AddInt32("index", i);
+			printf("%s\n", p->Language().LanguageCode().String());
+			mLanguagesMenu->AddItem(new BMenuItem(p->Language().FullName(), msg));
+			if (p->Language().LanguageCode() == preferredLanguage)
+				mSelectedLanguage = i;
 		}
+		
+		mLanguagesMenu->ItemAt(mSelectedLanguage)->SetMarked(true);
 		mCurrentTranslationGet = NULL;
+		BMessage msg(kMsgTranslationProjectChosen);
+		msg.AddInt32("index", mSelectedLanguage);
+		PostMessage(&msg);
 		break;
 	}
 	case kMsgGotStores: {
