@@ -22,6 +22,7 @@ public:
 	~SynchronousDataCollector()
 	{
 		delete_sem(semaphore);
+		free(data);
 	}
 
 	void
@@ -234,7 +235,7 @@ _PootleBase::_SendRequest(const char *method, const char *name,
 	if (collector->dataSize == 0)
 		msg.AddString("_location", ((BHttpResult &)hr->Result()).Headers().HeaderValue("Location"));
 	else if(((BHttpResult &)hr->Result()).StatusCode() == 500)
-		debugger("500 returned!");
+		msg.AddBool("_servererror", true);
 	else
 		BJson::Parse(msg, collector->data);
 

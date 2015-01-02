@@ -59,23 +59,31 @@ PootleSuggestion::SetUnit(PootleUnit &unit)
 	mData.AddString("unit", unit.ResourceUri());
 }
 
-void
+bool
 PootleSuggestion::Put()
 {
 	if (mData.IsEmpty())
 		return;
 	
-	mEndpoint->_SendRequest("PUT", mUri, mData);
+	BMessage response = mEndpoint->_SendRequest("PUT", mUri, mData);
+
+	if (response.GetBool("_authfailed", response.GetBool("_servererror", false)))
+		return false;
+
 	mEndpoint->_add_to_cache(mUri, *this);
+	return true;
 }
 
-void
+bool
 PootleSuggestion::Create(PootleSuggestionsEndpoint *endpoint)
 {
 	mEndpoint = endpoint;
-	mData.PrintToStream();
 	BMessage msg = mEndpoint->_SendRequest("POST", "", mData);
+	if (msg.GetBool("_authfailed", msg.GetBool("_servererror", false)))
+		return false;
+
 	*this = PootleSuggestion(mEndpoint, msg.GetString("_location", ""));
+	return true;
 }
 
 void

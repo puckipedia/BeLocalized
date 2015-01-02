@@ -50,14 +50,11 @@ bool
 PootleTranslationUnit::Suggest()
 {
 	if (!mCreatedSuggestion) {
-		mSuggestion.Create(mPootle->Suggestions());
 		mCreatedSuggestion = true;
+		return mSuggestion.Create(mPootle->Suggestions());
 	} else {
-		mSuggestion.Put();
-		mCreatedSuggestion = false;
+		return mSuggestion.Put();
 	}
-
-	return true;
 }
 
 

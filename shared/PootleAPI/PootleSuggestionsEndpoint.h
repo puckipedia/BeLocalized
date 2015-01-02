@@ -25,8 +25,8 @@ public:
 	void			SetTranslatorComment(const char *);
 	void			SetUnit(PootleUnit &unit);
 
-	void			Put();
-	void			Create(PootleSuggestionsEndpoint *);
+	bool			Put();
+	bool			Create(PootleSuggestionsEndpoint *);
 
 	PootleSuggestion() {}
 	PootleSuggestion(_Endpoint *, BMessage &);
