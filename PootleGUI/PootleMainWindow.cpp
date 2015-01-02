@@ -46,6 +46,7 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 		.AddSplit(B_HORIZONTAL, 1.0f)
 			.SetInsets(B_USE_WINDOW_INSETS, 0, B_USE_WINDOW_INSETS, B_USE_WINDOW_INSETS)
 			.AddSplit(B_VERTICAL)
+				.SetInsets(0, 0, B_USE_WINDOW_INSETS, 0)
 				.Add(new BScrollView("stores scroller", mStoresView, 0, false, true), 0.2f)
 			.End()
 			.Add(mTranslationView);
@@ -200,6 +201,10 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 			PootleStore *p = mStores.ItemAt(i);
 			BString path = p->PootlePath();
 			path.Remove(0, path.FindFirst("/haiku") + 6);
+			if (path.EndsWith(".catkeys")) {
+				int32 location = path.FindLast("/");
+				path.Remove(location, path.Length() - location);
+			}
 			mStoresView->AddItem(new BStringItem(path));
 		}
 		mCurrentStoreGet = NULL;
