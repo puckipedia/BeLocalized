@@ -63,7 +63,7 @@ bool
 PootleSuggestion::Put()
 {
 	if (mData.IsEmpty())
-		return;
+		return false;
 	
 	BMessage response = mEndpoint->_SendRequest("PUT", mUri, mData);
 
