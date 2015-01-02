@@ -214,6 +214,14 @@ TranslationView::SetStore(TranslationStore *s)
 
 	mButtonsLayout->AddItem(BSpaceLayoutItem::CreateGlue());
 
+	if (s == 0) {
+		mSource->SetText("");
+		mContext->SetText("");
+		mDeveloperComment->SetText("");
+		mTranslated->SetText("");
+		return;
+	}
+
 	if (s->CanSetAsTranslation()) {
 		mButtonsLayout->AddView(mSetAsTranslation);
 		mSetAsTranslation->MakeDefault(true);
@@ -285,7 +293,6 @@ TranslationView::MessageReceived(BMessage *msg)
 		if (!mUnit->SetAsTranslation()) {
 			BAlert *a = new BAlert("Failed to set translation", "Failed to set the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
-			delete a;
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
 			_UpdateView();
@@ -297,7 +304,6 @@ TranslationView::MessageReceived(BMessage *msg)
 		if (!mUnit->Suggest()) {
 			BAlert *a = new BAlert("Failed to suggest translation", "Failed to suggest the translation.\nDo you have the right permissions?", "Close");
 			a->Go();
-			delete a;
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
 			_UpdateView();
