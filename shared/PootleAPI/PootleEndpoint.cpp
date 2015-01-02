@@ -63,7 +63,7 @@ public:
 			BHttpResult &res = (BHttpResult &)r->Result();
 			if (res.StatusCode() == 401) {
 				auth_failed++;
-				if (auth_failed > 3) {
+				if (auth_failed) {
 					r->Stop();
 					release_sem(semaphore);
 				}
