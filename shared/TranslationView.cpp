@@ -63,7 +63,7 @@ TranslationView::TranslationView()
 	mSetAsTranslation = new BButton("set translation", "Set as translation",
 		new BMessage(kMsgSetTranslation));
 
-	mSearchControl = new BTextControl("Search for:", "", new BMessage(kMsgUpdateView));
+	mSearchControl = new BTextControl("Filter:", "", new BMessage(kMsgUpdateView));
 	mSearchControl->SetModificationMessage(new BMessage(kMsgUpdateView));
 
 	mHideTranslatedCheckbox = new BCheckBox("Hide translated", new BMessage(kMsgUpdateView));
@@ -90,7 +90,7 @@ TranslationView::TranslationView()
 				.End()
 				.Add(mWordsScrollView)
 			.End()
-			.AddGrid()
+			.AddGrid(B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
 				.AddGroup(B_HORIZONTAL, 0, 0, 0)
 					.Add(mSourceLabel)
 					.AddGlue()
