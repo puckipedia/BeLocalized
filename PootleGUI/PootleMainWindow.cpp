@@ -196,13 +196,15 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		msg->FindPointer("data", (void **)&stores);
 		mStores = *stores;
 		delete stores;
+		BString endcat = mTranslationProjects.ItemAt(mSelectedLanguage)->Language().LanguageCode();
+		endcat.Append(".catkeys");
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
 		for (int32 i = 0; i < mStores.CountItems(); i++) {
 			PootleStore *p = mStores.ItemAt(i);
 			BString path = p->PootlePath();
 			path.Remove(0, path.FindFirst("/haiku") + 6);
-			if (path.EndsWith(".catkeys")) {
-				int32 location = path.FindLast("/");
+			if (path.EndsWith(endcat)) {
+				int32 location = path.FindLast("/") + 1;
 				path.Remove(location, path.Length() - location);
 			}
 			mStoresView->AddItem(new BStringItem(path));
