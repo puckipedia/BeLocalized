@@ -44,8 +44,8 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 		.SetInsets(0)
 		.Add(topMenu)
 		.AddSplit(B_HORIZONTAL, 1.0f)
+			.SetInsets(B_USE_WINDOW_INSETS, 0, B_USE_WINDOW_INSETS, B_USE_WINDOW_INSETS)
 			.AddSplit(B_VERTICAL)
-				.SetInsets(B_USE_WINDOW_INSETS)
 				.Add(new BScrollView("stores scroller", mStoresView, 0, false, true), 0.2f)
 			.End()
 			.Add(mTranslationView);
@@ -123,6 +123,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 
 		mSelectedProject = index;
 		mProjectsMenu->ItemAt(mSelectedProject)->SetMarked(true);
+		mTranslationView->SetStore(0);
 		break;
 	}
 	case kMsgTranslationProjectChosen: {
@@ -152,6 +153,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
 		mStoresView->AddItem(new BStringItem("Loading stores..."));
+		mTranslationView->SetStore(0);
 		break;
 	}
 	case kMsgGotDataForProject: {
@@ -197,7 +199,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		for (int32 i = 0; i < mStores.CountItems(); i++) {
 			PootleStore *p = mStores.ItemAt(i);
 			BString path = p->PootlePath();
-			path.Remove(0, path.FindFirst("/haiku") + 7);
+			path.Remove(0, path.FindFirst("/haiku") + 6);
 			mStoresView->AddItem(new BStringItem(path));
 		}
 		mCurrentStoreGet = NULL;
