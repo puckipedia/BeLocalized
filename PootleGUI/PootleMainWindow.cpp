@@ -99,6 +99,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		int32 index = msg->GetInt32("index", -1);
 		if (index < 0)
 			break;
+
 		PootleProject *p = mProjects.ItemAt(index);
 		AsyncTranslationProjectGet *g = new AsyncTranslationProjectGet();
 		g->project = p;
@@ -203,7 +204,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		break;
 	}
 	case kMsgChoseStore: {
-		if (mCurrentStoreGet || mCurrentTranslationGet)
+		if (mCurrentStoreGet || mCurrentTranslationGet || mSelectedProject < 0)
 			break;
 
 		BMessenger msg(mTranslationView);
