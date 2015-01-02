@@ -39,10 +39,11 @@ private:
 	AsyncTranslationProjectGet *mCurrentTranslationGet;
 	AsyncStoreGet *mCurrentStoreGet;
 
-	BListView		*mProjectsView;
 	BListView		*mStoresView;
 	BMenu			*mLanguagesMenu;
+	BMenu			*mProjectsMenu;
 	int32			 mSelectedLanguage;
+	int32			 mSelectedProject;
 
 	TranslationView	*mTranslationView;
 };

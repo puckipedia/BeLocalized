@@ -144,6 +144,9 @@ TranslationView::HideTranslated(bool set)
 void
 TranslationView::_UpdateView()
 {
+	if (!mStore)
+		return;
+
 	UnitItem *u = (UnitItem *)mWordsView->ItemAt(mWordsView->CurrentSelection());
 
 	int32 selection = -1;

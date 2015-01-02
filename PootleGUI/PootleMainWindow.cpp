@@ -26,18 +26,18 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 		B_AUTO_UPDATE_SIZE_LIMITS | B_QUIT_ON_WINDOW_CLOSE),
 	mPootle(pootle),
 	mCurrentTranslationGet(NULL),
-	mCurrentStoreGet(NULL)
+	mCurrentStoreGet(NULL),
+	mSelectedProject(-1)
 {
-	mProjectsView = new BListView("projects");
-	mProjectsView->SetSelectionMessage(new BMessage(kMsgGotProject));
-
 	mTranslationView = new TranslationView();
 
 	mStoresView = new BListView("stores");
 	mStoresView->SetSelectionMessage(new BMessage(kMsgChoseStore));
 
 	mLanguagesMenu = new BMenu("Languages");
+	mProjectsMenu = new BMenu("Projects");
 	BMenuBar *topMenu = new BMenuBar("menu");
+	topMenu->AddItem(mProjectsMenu);
 	topMenu->AddItem(mLanguagesMenu);
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
@@ -46,16 +46,18 @@ PootleMainWindow::PootleMainWindow(BRect rect, Pootle *pootle)
 		.AddSplit(B_HORIZONTAL, 1.0f)
 			.AddSplit(B_VERTICAL)
 				.SetInsets(B_USE_WINDOW_INSETS)
-				.Add(new BScrollView("projects scroller", mProjectsView, 0, false, true), 0.2f)
 				.Add(new BScrollView("stores scroller", mStoresView, 0, false, true), 0.2f)
 			.End()
 			.Add(mTranslationView);
 	
 	mProjects = mPootle->Projects()->Get();
 	for (int32 i = 0; i < mProjects.CountItems(); i++) {
-		mProjectsView->AddItem(new BStringItem(mProjects.ItemAt(i)->FullName()));
+		BMessage *msg = new BMessage(kMsgGotProject);
+		msg->AddInt32("index", i);
+		mProjectsMenu->AddItem(new BMenuItem(mProjects.ItemAt(i)->FullName(), msg));
 	}
 	
+	mStoresView->AddItem(new BStringItem("No project chosen. Use the 'Projects' menu to choose one."));
 }
 
 
@@ -113,13 +115,22 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		mLanguagesMenu->RemoveItems(0, mLanguagesMenu->CountItems());
 		mLanguagesMenu->AddItem(new BMenuItem("Loading...", NULL));
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
-		mStoresView->AddItem(new BStringItem("Loading..."));
+		mStoresView->AddItem(new BStringItem("Loading languages..."));
+		
+		if (mSelectedProject >= 0)
+			mProjectsMenu->ItemAt(mSelectedProject)->SetMarked(false);
+
+		mSelectedProject = index;
+		mProjectsMenu->ItemAt(mSelectedProject)->SetMarked(true);
 		break;
 	}
 	case kMsgTranslationProjectChosen: {
 		int32 index = msg->GetInt32("index", -1);
 		if (index < 0 || mCurrentTranslationGet)
 			break;
+
+		if (mSelectedProject < 0)
+			return;
 
 		mLanguagesMenu->ItemAt(mSelectedLanguage)->SetMarked(false);
 		mSelectedLanguage = index;
@@ -139,7 +150,7 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		resume_thread(t);
 
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
-		mStoresView->AddItem(new BStringItem("Loading..."));
+		mStoresView->AddItem(new BStringItem("Loading stores..."));
 		break;
 	}
 	case kMsgGotDataForProject: {
@@ -158,11 +169,12 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		}
 
 		mLanguagesMenu->RemoveItems(0, mLanguagesMenu->CountItems());
+		mSelectedLanguage = 0;
+
 		for (int32 i = 0; i < mTranslationProjects.CountItems(); i++) {
 			PootleTranslationProject *p = mTranslationProjects.ItemAt(i);
 			BMessage *msg = new BMessage(kMsgTranslationProjectChosen);
 			msg->AddInt32("index", i);
-			printf("%s\n", p->Language().LanguageCode().String());
 			mLanguagesMenu->AddItem(new BMenuItem(p->Language().FullName(), msg));
 			if (p->Language().LanguageCode() == preferredLanguage)
 				mSelectedLanguage = i;
@@ -183,7 +195,9 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		mStoresView->RemoveItems(0, mStoresView->CountItems());
 		for (int32 i = 0; i < mStores.CountItems(); i++) {
 			PootleStore *p = mStores.ItemAt(i);
-			mStoresView->AddItem(new BStringItem(p->PootlePath().String()));
+			BString path = p->PootlePath();
+			path.Remove(0, path.FindFirst("/haiku") + 7);
+			mStoresView->AddItem(new BStringItem(path));
 		}
 		mCurrentStoreGet = NULL;
 		break;

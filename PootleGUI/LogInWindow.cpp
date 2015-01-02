@@ -65,7 +65,7 @@ LogInWindow::MessageReceived(BMessage *msg)
 		mLoginButton->SetEnabled(false);
 		break;
 	case kMsgPootleInited: {
-		mStatusView->SetText("Getting languages...");
+		mStatusView->SetText("Testing connectivity...");
 		mPootle->Languages()->Get();
 		mStatusView->SetText("Success!");
 		BMessage success(kMsgPootleInited);
