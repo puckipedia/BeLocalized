@@ -157,6 +157,9 @@ PootleMainWindow::MessageReceived(BMessage *msg)
 		break;
 	}
 	case kMsgChoseStore: {
+		if (mCurrentStoreGet || mCurrentTranslationGet)
+			break;
+
 		BMessenger msg(mTranslationView);
 		PootleTranslationStore *s = new PootleTranslationStore(mPootle,
 			mStores.ItemAt(mStoresView->CurrentSelection()), msg, kMsgGotUnit);
