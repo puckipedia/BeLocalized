@@ -66,7 +66,7 @@ TranslationView::TranslationView()
 	mSearchControl = new BTextControl("Search for:", "", new BMessage(kMsgUpdateView));
 	mSearchControl->SetModificationMessage(new BMessage(kMsgUpdateView));
 
-	mHideTranslatedCheckbox = new BCheckBox("Hide Translated", new BMessage(kMsgUpdateView));
+	mHideTranslatedCheckbox = new BCheckBox("Hide translated", new BMessage(kMsgUpdateView));
 
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
