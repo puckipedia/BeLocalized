@@ -1,6 +1,8 @@
 #ifndef ASYNC_GETTER_H
 #define ASYNC_GETTER_H
 
+#include <stdio.h>
+
 #include <Looper.h>
 #include <ObjectList.h>
 
