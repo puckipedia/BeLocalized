@@ -66,7 +66,7 @@ TranslationView::TranslationView()
 	mSearchControl = new BTextControl("Filter:", "", new BMessage(kMsgUpdateView));
 	mSearchControl->SetModificationMessage(new BMessage(kMsgUpdateView));
 
-	mHideTranslatedCheckbox = new BCheckBox("Hide translated", new BMessage(kMsgUpdateView));
+	mHideTranslatedCheckbox = new BCheckBox("Hide translated strings", new BMessage(kMsgUpdateView));
 
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
@@ -81,7 +81,6 @@ TranslationView::TranslationView()
 
 	BSplitView *v = 
 		BLayoutBuilder::Split<>(B_VERTICAL)
-			.SetInsets(B_USE_WINDOW_INSETS, 0, 0, 0)
 			.AddGroup(B_VERTICAL)
 				.AddGroup(B_HORIZONTAL)
 					.Add(mHideTranslatedCheckbox)
@@ -95,7 +94,7 @@ TranslationView::TranslationView()
 					.Add(mSourceLabel)
 					.AddGlue()
 				.End()
-				.Add(mSourceScroll, 0, 1)
+				.Add(mSourceScroll, 0, 1, 1, 2)
 				.Add(mDevCommentView, 0, 2)
 				.AddGroup(B_HORIZONTAL, 0, 0, 3)
 					.Add(mContextLabel)
