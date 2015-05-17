@@ -23,6 +23,7 @@ CatKeyApp::_OpenWindow(BString path)
 {
 	TranslationWindow *window = new TranslationWindow(BRect(0, 0, 680, 480));
 	window->CenterOnScreen();
+	window->MoveBy(mOpenWindows * 20, mOpenWindows * 20);
 
 	TranslationView *view = window->Translation();
 	BMessenger messenger(view);
