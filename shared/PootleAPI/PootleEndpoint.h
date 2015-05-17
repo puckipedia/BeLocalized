@@ -3,6 +3,8 @@
 
 class Pootle;
 
+#include <stdio.h>
+
 #include <ObjectList.h>
 #include <Url.h>
 
@@ -84,7 +86,7 @@ public:
 						returnList.AddItem(new T(this, msg));
 					}
 					
-					for (std::map<int, T>::iterator i = alreadyGotten.begin();
+					for (typename std::map<int, T>::iterator i = alreadyGotten.begin();
 						i != alreadyGotten.end(); ++i) {
 						returnList.AddItem(new T(i->second), i->first);
 					}
