@@ -178,7 +178,7 @@ TranslationView::_Filter(TranslationUnit *unit)
 	BString translated = unit->Translated();
 	BString text = unit->Source();
 	BString searchText = mSearchControl->Text();
-	if (mHideTranslated && translated.Length() > 0)
+	if (mHideTranslated && (translated.Length() > 0 || translated == text))
 		return false;
 
 	if (text.IFindFirst(searchText) < 0 && translated.IFindFirst(searchText) < 0)

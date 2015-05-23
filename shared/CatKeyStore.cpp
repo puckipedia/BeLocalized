@@ -57,23 +57,7 @@ CatKeyStore::StartLoading()
 		buffer_pointer = buffer - 1;
 		while(readbytes--) {
 			buffer_pointer++;
-			if (instring) {
-				if (*buffer_pointer == '"') {
-					if (instring == 2) {
-						temp += '"';
-						continue;
-					} else {
-						instring = 2;
-						continue;
-					}
-				} else {
-					instring = 0;
-				}
-				temp += *buffer_pointer;
-			}
-			if (*buffer_pointer == '"')
-				instring = 1;
-			else if(*buffer_pointer == '\t' || *buffer_pointer == '\n') {
+			if(*buffer_pointer == '\t' || *buffer_pointer == '\n' || *buffer_pointer == '\r') {
 				if (first) {
 					switch(index++) {
 					case 0:
@@ -109,6 +93,9 @@ CatKeyStore::StartLoading()
 				}
 				
 				temp = "";
+				if (*buffer_pointer == '\r')
+					buffer_pointer++;
+
 				if (*buffer_pointer == '\n') {
 					if (u) {
 						mUnits.AddItem(u);
@@ -132,19 +119,12 @@ CatKeyStore::StartLoading()
 	msg.AddPointer("store", this);
 	mLoadMessenger.SendMessage(&msg);
 	
-	delete u;	
+	delete u;
 }
 
 status_t
 CatKeyStore::_WriteField(BString field, bool last)
 {
-	if (field.FindFirst('"') != B_ERROR
-		 || field.FindFirst('\n') != B_ERROR
-		 || field.FindFirst('\t') != B_ERROR) {
-		field.ReplaceAll("\"", "\"\"");
-		field.Prepend("\"").Append("\"");
-	}
-	
 	if (last)
 		field.Append("\n");
 	else
