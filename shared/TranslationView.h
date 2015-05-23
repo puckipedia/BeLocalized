@@ -25,11 +25,16 @@ public:
 	void				 SetStore(TranslationStore *);
 	TranslationStore	*Store() { return mStore; }
 	
-	bool				 HidesTranslated() { return mHideTranslated; }
+	bool				 HidesTranslated() const { return mHideTranslated; }
 	void				 HideTranslated(bool);
+
+	bool				 AutomaticallyConfirm() const {
+							return mAutomaticallyConfirm; }
+	void				 SetAutomaticallyConfirm(bool);
 
 private:
 	void				 _UpdateView();
+	void				 _UpdateButtons();
 	bool				 _Filter(TranslationUnit *);
 	int32				 _IndexForIndex(int32);
 
@@ -66,6 +71,7 @@ private:
 	TranslationStore	*mStore;
 	TranslationUnit		*mUnit;
 	int					 mReceivedUnits;
+	bool				 mAutomaticallyConfirm;
 };
 
 #endif

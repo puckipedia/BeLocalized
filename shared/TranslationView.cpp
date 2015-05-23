@@ -43,7 +43,8 @@ private:
 TranslationView::TranslationView()
 	:
 	BView("translation view", 0),
-	mHideTranslated(false)
+	mHideTranslated(false),
+	mAutomaticallyConfirm(false)
 {
 	mWordsView = new BListView("words view");
 	mWordsScrollView = new BScrollView("words scroller", mWordsView, 0, false, true);
@@ -208,11 +209,6 @@ TranslationView::SetStore(TranslationStore *s)
 {
 	mStore = s;
 
-	while (mButtonsLayout->CountItems() > 0)
-		mButtonsLayout->RemoveItem((int32)0);
-
-	mButtonsLayout->AddItem(BSpaceLayoutItem::CreateGlue());
-
 	if (s == 0) {
 		mSource->SetText("");
 		mContext->SetText("");
@@ -221,18 +217,38 @@ TranslationView::SetStore(TranslationStore *s)
 		return;
 	}
 
-	if (s->CanSetAsTranslation()) {
+	mReceivedUnits = 0;
+	_UpdateView();
+	_UpdateButtons();
+}
+
+void
+TranslationView::_UpdateButtons()
+{
+	while (mButtonsLayout->CountItems() > 0)
+		mButtonsLayout->RemoveItem((int32)0);
+
+	if (mAutomaticallyConfirm)
+		return;
+
+	mButtonsLayout->AddItem(BSpaceLayoutItem::CreateGlue());
+
+	if (mStore->CanSetAsTranslation()) {
 		mButtonsLayout->AddView(mSetAsTranslation);
 		mSetAsTranslation->MakeDefault(true);
 	}
 	
-	if (s->CanSuggest()) {
+	if (mStore->CanSuggest()) {
 		mButtonsLayout->AddView(mSuggest);
 		mSuggest->MakeDefault(true);
 	}
-	
-	mReceivedUnits = 0;
-	_UpdateView();
+}
+
+void
+TranslationView::SetAutomaticallyConfirm(bool confirm)
+{
+	mAutomaticallyConfirm = confirm;
+	_UpdateButtons();
 }
 
 void
@@ -273,6 +289,11 @@ TranslationView::MessageReceived(BMessage *msg)
 		int32 index = _IndexForIndex(mWordsView->CurrentSelection());
 		if (index < 0)
 			break;
+
+		if (mAutomaticallyConfirm && mUnit) {
+			mUnit->SetTranslated(mTranslated->Text());
+			mUnit->Suggest();
+		}
 
 		mUnit = mStore->UnitAt(index);
 		mSource->SetText(mUnit->Source());

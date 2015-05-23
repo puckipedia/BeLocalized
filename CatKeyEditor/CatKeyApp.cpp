@@ -26,6 +26,7 @@ CatKeyApp::_OpenWindow(BString path)
 	window->MoveBy(mOpenWindows * 20, mOpenWindows * 20);
 
 	TranslationView *view = window->Translation();
+	view->SetAutomaticallyConfirm(true);
 	BMessenger messenger(view);
 	CatKeyStore *store = new CatKeyStore(path, messenger, kMsgGotUnit);
 	window->SetTitle(store->Title());
