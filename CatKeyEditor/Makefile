@@ -34,7 +34,7 @@ SRCS = CatKeyApp.cpp main.cpp \
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
-RDEFS = 
+RDEFS = CatKeyEditor.rdef
 
 #	Specify the resource files to use. Full or relative paths can be used.
 #	Both RDEFS and RSRCS can be utilized in the same Makefile.
