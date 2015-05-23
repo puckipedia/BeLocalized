@@ -40,7 +40,10 @@ CatKeyApp::ReadyToRun()
 {
 	if (mOpenWindows == 0) {
 		fprintf(stderr, "Usage: %s [file] [file] [...]\n", mCalledAs);
-		Quit();
+		mOpenPanel = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
+			B_FILE_NODE | B_DIRECTORY_NODE);
+		mOpenPanel->SetTarget(this);
+		mOpenPanel->Show();
 	}
 }
 

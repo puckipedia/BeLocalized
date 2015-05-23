@@ -3,6 +3,7 @@
 #include "TranslationView.h"
 
 #include <Application.h>
+#include <ControlLook.h>
 #include <LayoutBuilder.h>
 #include <Message.h>
 #include <Rect.h>
@@ -16,8 +17,11 @@ TranslationWindow::TranslationWindow(BRect rect, uint32 mask)
 {
 	mView = new TranslationView();
 
+	float spacing = be_control_look->DefaultItemSpacing();
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.Add(mView);
+		.AddGroup(B_HORIZONTAL, 0)
+			.Add(mView)
+			.SetInsets(spacing);
 }
 
 
@@ -34,6 +38,7 @@ TranslationWindow::QuitRequested()
 	be_app->PostMessage(kMsgWindowClosed);
 	return BWindow::QuitRequested();
 }
+
 
 void
 TranslationWindow::MessageReceived(BMessage *msg)
