@@ -1,4 +1,4 @@
-resource app_signature "application/x-puckipedia.CatKeyEditor";
+resource app_signature "application/x-vnd.puckipedia-CatKeyEditor";
 
 resource app_version {
 	major  = 0,
