@@ -44,7 +44,8 @@ TranslationView::TranslationView()
 	:
 	BView("translation view", 0),
 	mHideTranslated(false),
-	mAutomaticallyConfirm(false)
+	mAutomaticallyConfirm(false),
+	mUnit(NULL)
 {
 	mWordsView = new BListView("words view");
 	mWordsScrollView = new BScrollView("words scroller", mWordsView, 0, false, true);
