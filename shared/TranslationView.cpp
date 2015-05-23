@@ -228,9 +228,6 @@ TranslationView::_UpdateButtons()
 	while (mButtonsLayout->CountItems() > 0)
 		mButtonsLayout->RemoveItem((int32)0);
 
-	if (mAutomaticallyConfirm)
-		return;
-
 	mButtonsLayout->AddItem(BSpaceLayoutItem::CreateGlue());
 
 	if (mStore->CanSetAsTranslation()) {
