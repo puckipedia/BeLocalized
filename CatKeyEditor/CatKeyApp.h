@@ -8,7 +8,7 @@ class CatKeyApp : public BApplication {
 public:
 	CatKeyApp(const char *a)
 		:
-		BApplication("application/x-puckipedia.CatKeyEditor"),
+		BApplication("application/x-vnd.puckipedia-CatKeyEditor"),
 		mOpenWindows(0),
 		mCalledAs(a) {}
 	~CatKeyApp() {delete mOpenPanel;}
