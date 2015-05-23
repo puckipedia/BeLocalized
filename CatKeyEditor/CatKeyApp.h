@@ -10,6 +10,7 @@ public:
 		:
 		BApplication("application/x-vnd.puckipedia-CatKeyEditor"),
 		mOpenWindows(0),
+		mOpenPanel(NULL),
 		mCalledAs(a) {}
 	~CatKeyApp() {delete mOpenPanel;}
 
