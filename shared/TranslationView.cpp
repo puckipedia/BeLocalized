@@ -4,6 +4,7 @@
 
 #include <Alert.h>
 #include <Button.h>
+#include <Catalog.h>
 #include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListView.h>
@@ -24,6 +25,10 @@ const int32 kMsgUpdateSelection = 'USel';
 
 const int32 kMsgUpdateView = 'UVuw';
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TranslationView"
+
+
 class UnitItem : public BStringItem {
 public:
 			 UnitItem(const char *text, int32 index)
@@ -43,30 +48,30 @@ TranslationView::TranslationView()
 	mWordsView = new BListView("words view");
 	mWordsScrollView = new BScrollView("words scroller", mWordsView, 0, false, true);
 
-	mSourceLabel = new BStringView("source label", "Source:");
+	mSourceLabel = new BStringView("source label", B_TRANSLATE("Source:"));
 	mSource = new BTextView("source");
 	mSourceScroll = new BScrollView("source scroller", mSource, 0, false, true);
 	mSource->MakeEditable(false);
 
 	mContext = new BStringView("context", "");
-	mContextLabel = new BStringView("context label", "Context: ");
+	mContextLabel = new BStringView("context label", B_TRANSLATE("Context: "));
 
-	mDeveloperCommentLabel = new BStringView("developer comment label", "Developer comment:");
+	mDeveloperCommentLabel = new BStringView("developer comment label", B_TRANSLATE("Developer comment:"));
 	mDeveloperComment = new BTextView("developer comment");
 	mDeveloperCommentScroll = new BScrollView("developer comment scroller", mDeveloperComment, 0, false, true);
 
 	mTranslated = new BTextView("translated");
 	mTranslatedScroll = new BScrollView("translated scroller", mTranslated, 0, false, true);
-	mTranslatedLabel = new BStringView("translated label", "Translated:");
+	mTranslatedLabel = new BStringView("translated label", B_TRANSLATE("Translated:"));
 
 	mSuggest = new BButton("suggest", "Suggest", new BMessage(kMsgSuggest));
-	mSetAsTranslation = new BButton("set translation", "Set as translation",
+	mSetAsTranslation = new BButton("set translation", B_TRANSLATE("Set as translation"),
 		new BMessage(kMsgSetTranslation));
 
-	mSearchControl = new BTextControl("Filter:", "", new BMessage(kMsgUpdateView));
+	mSearchControl = new BTextControl(B_TRANSLATE("Filter:"), "", new BMessage(kMsgUpdateView));
 	mSearchControl->SetModificationMessage(new BMessage(kMsgUpdateView));
 
-	mHideTranslatedCheckbox = new BCheckBox("Hide translated", new BMessage(kMsgUpdateView));
+	mHideTranslatedCheckbox = new BCheckBox(B_TRANSLATE("Hide translated"), new BMessage(kMsgUpdateView));
 
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
@@ -286,7 +291,9 @@ TranslationView::MessageReceived(BMessage *msg)
 	case kMsgSetTranslation: {
 		mUnit->SetTranslated(mTranslated->Text());
 		if (!mUnit->SetAsTranslation()) {
-			BAlert *a = new BAlert("Failed to set translation", "Failed to set the translation.\nDo you have the right permissions?", "Close");
+			BAlert *a = new BAlert(B_TRANSLATE("Failed to set translation"),
+				B_TRANSLATE("Failed to set the translation.\nDo you have "
+				"the right permissions?"), B_TRANSLATE("Close"));
 			a->Go();
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
@@ -297,7 +304,9 @@ TranslationView::MessageReceived(BMessage *msg)
 	case kMsgSuggest: {
 		mUnit->SetTranslated(mTranslated->Text());
 		if (!mUnit->Suggest()) {
-			BAlert *a = new BAlert("Failed to suggest translation", "Failed to suggest the translation.\nDo you have the right permissions?", "Close");
+			BAlert *a = new BAlert(B_TRANSLATE("Failed to suggest translation"),
+				B_TRANSLATE("Failed to suggest the translation.\nDo you have "
+				"the right permissions?"), B_TRANSLATE("Close"));
 			a->Go();
 		} else {
 			mWordsView->Select(mWordsView->CurrentSelection() + 1);
