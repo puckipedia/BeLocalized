@@ -272,16 +272,18 @@ TranslationView::MessageReceived(BMessage *msg)
 		msg->FindPointer("store", (void **)&s);
 		if (s != mStore)
 			break;
+		
+		mReceivedUnits++;
 
 		if (_Filter(u)) {
 			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits));
 			if (mWordsView->CurrentSelection() == -1)
 				mWordsView->Select(0);
+			else
+				break;
 		}
-		
-		mReceivedUnits++;
-		break;
 	}
+	// Yes, fallthrough is on purpose!
 	case kMsgSelectUnit: {
 		int32 index = _IndexForIndex(mWordsView->CurrentSelection());
 		if (index < 0)
