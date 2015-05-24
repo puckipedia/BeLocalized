@@ -52,17 +52,18 @@ TranslationView::TranslationView()
 
 	mSourceLabel = new BStringView("source label", B_TRANSLATE("Source:"));
 	mSource = new BTextView("source");
+	mSource->SetInsets(6, 3, 6, 3);
 	mSourceScroll = new BScrollView("source scroller", mSource, 0, false, true);
 	mSource->MakeEditable(false);
 
 	mContext = new BStringView("context", "");
 	mContextLabel = new BStringView("context label", B_TRANSLATE("Context: "));
 
-	mDeveloperCommentLabel = new BStringView("developer comment label", B_TRANSLATE("Developer comment:"));
-	mDeveloperComment = new BTextView("developer comment");
-	mDeveloperCommentScroll = new BScrollView("developer comment scroller", mDeveloperComment, 0, false, true);
+	mDeveloperComment = new BStringView("developer comment", "");
+	mDeveloperCommentLabel = new BStringView("developer comment label", B_TRANSLATE("Comment: "));
 
 	mTranslated = new BTextView("translated");
+	mTranslated->SetInsets(6, 3, 6, 3);
 	mTranslatedScroll = new BScrollView("translated scroller", mTranslated, 0, false, true);
 	mTranslatedLabel = new BStringView("translated label", B_TRANSLATE("Translated:"));
 
@@ -77,15 +78,6 @@ TranslationView::TranslationView()
 
 	mButtonsLayout = new BGroupLayout(B_HORIZONTAL);
 
-	mDevCommentView =
-		BLayoutBuilder::Group<>(B_VERTICAL)
-			.AddGroup(B_HORIZONTAL)
-				.Add(mDeveloperCommentLabel)
-				.AddGlue()
-			.End()
-			.Add(mDeveloperCommentScroll).View();
-
-
 	BSplitView *v = 
 		BLayoutBuilder::Split<>(B_VERTICAL)
 			.AddGroup(B_VERTICAL)
@@ -96,33 +88,38 @@ TranslationView::TranslationView()
 				.End()
 				.Add(mWordsScrollView)
 			.End()
-			.AddGrid(B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
-				.AddGroup(B_HORIZONTAL, 0, 0, 0)
-					.Add(mSourceLabel)
-					.AddGlue()
+			.AddGroup(B_VERTICAL)
+				.AddGroup(B_HORIZONTAL)
+					.AddGroup(B_VERTICAL)
+						.Add(mSourceLabel)
+						.Add(mSourceScroll)
+					.End()
+					.AddGroup(B_VERTICAL)
+						.Add(mTranslatedLabel)
+						.Add(mTranslatedScroll)
+					.End()
 				.End()
-				.Add(mSourceScroll, 0, 1, 1, 2)
-				.Add(mDevCommentView, 0, 2)
-				.AddGroup(B_HORIZONTAL, 0, 0, 3)
-					.Add(mContextLabel)
-					.Add(mContext)
-					.AddGlue()
-				.End()
-				.AddGroup(B_HORIZONTAL, 0, 1, 0)
-					.Add(mTranslatedLabel)
-					.AddGlue()
-				.End()
-				.Add(mTranslatedScroll, 1, 1, 1, 2)
-				.AddGroup(mButtonsLayout, 1, 3)
+				.AddGroup(B_HORIZONTAL)
+					.AddGroup(B_VERTICAL, 0)
+						.AddGroup(B_HORIZONTAL, 0)
+							.Add(mContextLabel)
+							.Add(mContext)
+							.AddGlue()
+						.End()
+						.AddGroup(B_HORIZONTAL, 0)
+							.Add(mDeveloperCommentLabel)
+							.Add(mDeveloperComment)
+							.AddGlue()
+						.End()
+					.End()
+					.Add(mSetAsTranslation)
 				.End()
 			.End()
 		.View();
-	
+
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL)
 		.SetInsets(0)
 		.Add(v);
-
-	mDevCommentView->Hide();
 
 	mWordsView->SetSelectionMessage(new BMessage(kMsgSelectUnit));
 	mContextLabel->SetFont(be_bold_font);
@@ -298,10 +295,6 @@ TranslationView::MessageReceived(BMessage *msg)
 		mContext->SetText(mUnit->Context());
 		mDeveloperComment->SetText(mUnit->DeveloperComment());
 		mTranslated->SetText(mUnit->Translated());
-		if (mUnit->DeveloperComment().Length() == 0)
-			mDevCommentView->Hide();
-		else
-			mDevCommentView->Show();
 
 		mWordsView->ScrollToSelection();
 		break;
