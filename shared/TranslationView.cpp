@@ -59,11 +59,9 @@ TranslationView::TranslationView()
 
 	mContext = new BStringView("context", "");
 	mContextLabel = new BStringView("context label", B_TRANSLATE("Context: "));
-	mContextLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mDeveloperComment = new BStringView("developer comment", "");
 	mDeveloperCommentLabel = new BStringView("developer comment label", B_TRANSLATE("Comment: "));
-	mDeveloperCommentLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mTranslated = new BTextView("translated");
 	mTranslated->SetInsets(6, 3, 6, 3);
