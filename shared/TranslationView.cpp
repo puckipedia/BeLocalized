@@ -51,6 +51,7 @@ TranslationView::TranslationView()
 	mWordsScrollView = new BScrollView("words scroller", mWordsView, 0, false, true);
 
 	mSourceLabel = new BStringView("source label", B_TRANSLATE("Source:"));
+	mSourceLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	mSource = new BTextView("source");
 	mSource->SetInsets(6, 3, 6, 3);
 	mSourceScroll = new BScrollView("source scroller", mSource, 0, false, true);
@@ -58,14 +59,17 @@ TranslationView::TranslationView()
 
 	mContext = new BStringView("context", "");
 	mContextLabel = new BStringView("context label", B_TRANSLATE("Context: "));
+	mContextLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mDeveloperComment = new BStringView("developer comment", "");
 	mDeveloperCommentLabel = new BStringView("developer comment label", B_TRANSLATE("Comment: "));
+	mDeveloperCommentLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mTranslated = new BTextView("translated");
 	mTranslated->SetInsets(6, 3, 6, 3);
 	mTranslatedScroll = new BScrollView("translated scroller", mTranslated, 0, false, true);
 	mTranslatedLabel = new BStringView("translated label", B_TRANSLATE("Translated:"));
+	mTranslatedLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mSuggest = new BButton("suggest", "Suggest", new BMessage(kMsgSuggest));
 	mSetAsTranslation = new BButton("set translation", B_TRANSLATE("Set as translation"),
@@ -112,7 +116,7 @@ TranslationView::TranslationView()
 							.AddGlue()
 						.End()
 					.End()
-					.Add(mSetAsTranslation)
+					.Add(mButtonsLayout)
 				.End()
 			.End()
 		.View();
