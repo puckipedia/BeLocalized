@@ -12,7 +12,7 @@ public:
 
 	void	SetSource(BString t) { mSource = t; }
 	void	SetContext(BString t) { mContext = t; }
-	void	SetDeveloperComment(BString t) { mTranslated = t; }
+	void	SetDeveloperComment(BString t) { mComment = t; }
 	void	SetTranslated(BString t) { mTranslated = t; }
 	
 	bool	Suggest() { return false; }

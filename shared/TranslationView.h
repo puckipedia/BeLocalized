@@ -56,8 +56,7 @@ private:
 	BScrollView			*mSourceScroll;
 
 	BStringView			*mDeveloperCommentLabel;
-	BTextView			*mDeveloperComment;
-	BScrollView			*mDeveloperCommentScroll;
+	BStringView			*mDeveloperComment;
 
 	BGroupLayout		*mButtonsLayout;
 	BButton				*mSuggest;
