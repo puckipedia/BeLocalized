@@ -15,7 +15,7 @@ NAME = CatKeysEditor
 TYPE = APP
 
 # 	If you plan to use localization, specify the application's MIME signature.
-APP_MIME_SIG = application/x-vnd.puckipedia-CatKeyEditor
+APP_MIME_SIG = application/x-vnd.puckipedia-CatKeysEditor
 
 #	The following lines tell Pe and Eddie where the SRCS, RDEFS, and RSRCS are
 #	so that Pe and Eddie can fill them in for you.
@@ -34,7 +34,7 @@ SRCS = CatKeyApp.cpp main.cpp \
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
-RDEFS = CatKeyEditor.rdef
+RDEFS = CatKeysEditor.rdef
 
 #	Specify the resource files to use. Full or relative paths can be used.
 #	Both RDEFS and RSRCS can be utilized in the same Makefile.

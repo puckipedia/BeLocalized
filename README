@@ -1,3 +1,3 @@
-This project exists of two apps, called `PootleGUI` and `CatKeyEditor`. They both use the same translation view code, except that the `PootleGUI` gets its data directly from the Pootle API and `CatKeyEditor` gets its data from a local `catkeys` file. The `shared` folder contains code that is generic enough to be shared by both: the Pootle API wrapper, and the TranslationView.
+This project exists of two apps, called `PootleGUI` and `CatKeysEditor`. They both use the same translation view code, except that the `PootleGUI` gets its data directly from the Pootle API and `CatKeysEditor` gets its data from a local `catkeys` file. The `shared` folder contains code that is generic enough to be shared by both: the Pootle API wrapper, and the TranslationView.
 
 To build these projects, `cd` into their corresponding folders and run `make`.
