@@ -59,13 +59,24 @@ CatKeyApp::ArgvReceived(int32 argc, char **argv)
 void
 CatKeyApp::MessageReceived(BMessage *msg)
 {
-	if (msg->what == kMsgWindowClosed) {
-		mOpenWindows--;
-		if (mOpenWindows == 0)
+	switch (msg->what) {
+		case kMsgWindowClosed:
+		{
+			mOpenWindows--;
+			if (mOpenWindows == 0)
+				Quit();
+			break;
+		}
+		case B_CANCEL:
+		{
 			Quit();
-	} else {
-		msg->PrintToStream();
-		BApplication::MessageReceived(msg);
+			break;
+		}
+		default:
+		{
+			msg->PrintToStream();
+			BApplication::MessageReceived(msg);
+		}
 	}
 }
 
