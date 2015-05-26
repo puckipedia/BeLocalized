@@ -1,4 +1,5 @@
-1	English	application/x-vnd.puckipedia-CatKeysEditor	1128537262
+1	English	application/x-vnd.puckipedia-CatKeysEditor	1116685186
+Close	CatKeyApp		Sluit
 Failed to suggest translation	TranslationView		Mislukt om de vertaling voor te stellen
 Comment: 	TranslationView		Commentaar: 
 Translated:	TranslationView		Vertaald:
@@ -10,4 +11,6 @@ Filter:	TranslationView		Filter:
 Close	TranslationView		Sluiten
 Source:	TranslationView		Bron:
 Set as translation	TranslationView		Stel as vertaling in
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Het bestand is niet geladen. Weet je zeker dat het een catkeys bestand is?
+Failed to load file	CatKeyApp		Bestand laden mislukt
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Het voorstellen van de vertaling is mislukt.\nHeb je de correcte toestemmingen?

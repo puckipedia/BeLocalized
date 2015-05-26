@@ -40,7 +40,7 @@ CatKeyStore::Title()
 	return mPath;
 }
 
-void
+bool
 CatKeyStore::StartLoading()
 {
 	char buffer[1024];
@@ -62,7 +62,7 @@ CatKeyStore::StartLoading()
 					switch(index++) {
 					case 0:
 						if(temp != "1") {
-							debugger("Unknown catkeys version");
+							return false;
 						}
 						break;
 					case 1:
@@ -120,6 +120,7 @@ CatKeyStore::StartLoading()
 	mLoadMessenger.SendMessage(&msg);
 	
 	delete u;
+	return true;
 }
 
 status_t

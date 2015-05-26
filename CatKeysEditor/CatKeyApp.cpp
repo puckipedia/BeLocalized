@@ -4,7 +4,9 @@
 #include "TranslationView.h"
 #include "TranslationWindow.h"
 
+#include <Alert.h>
 #include <Archivable.h>
+#include <Catalog.h>
 #include <Entry.h>
 #include <File.h>
 #include <LayoutBuilder.h>
@@ -17,6 +19,8 @@
 
 #include <stdio.h>
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CatKeyApp"
 
 void
 CatKeyApp::_OpenWindow(BString path)
@@ -30,10 +34,20 @@ CatKeyApp::_OpenWindow(BString path)
 	CatKeyStore *store = new CatKeyStore(path, messenger, kMsgGotUnit);
 	window->SetTitle(store->Title());
 	view->SetStore(store);
-	store->StartLoading();
-	view->SetAutomaticallyConfirm(true);
-	window->Show();
-	mOpenWindows++;	
+	if (!store->StartLoading()) {
+		delete view;
+		delete window;
+		delete store;
+
+		BAlert *alert = new BAlert(B_TRANSLATE("Failed to load file"),
+			B_TRANSLATE("The file failed to load. Are you sure it's a catkey file?"),
+			B_TRANSLATE("Close"));
+		alert->Go();
+	} else {
+		view->SetAutomaticallyConfirm(true);
+		window->Show();
+		mOpenWindows++;
+	}
 }
 
 

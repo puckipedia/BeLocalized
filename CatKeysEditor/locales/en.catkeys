@@ -1,4 +1,5 @@
-1	English	application/x-vnd.puckipedia-CatKeysEditor	1128537262
+1	English	application/x-vnd.puckipedia-CatKeysEditor	1116685186
+Close	CatKeyApp		Close
 Failed to suggest translation	TranslationView		Failed to suggest translation
 Comment: 	TranslationView		Comment: 
 Translated:	TranslationView		Translated:
@@ -10,4 +11,6 @@ Filter:	TranslationView		Filter:
 Close	TranslationView		Close
 Source:	TranslationView		Source:
 Set as translation	TranslationView		Set as translation
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		The file failed to load. Are you sure it's a catkey file?
+Failed to load file	CatKeyApp		Failed to load file
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Failed to suggest the translation.\nDo you have the right permissions?

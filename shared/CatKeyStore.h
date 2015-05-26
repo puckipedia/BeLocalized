@@ -19,7 +19,7 @@ public:
 
 	BString			 Title();
 
-	void			 StartLoading();
+	bool			 StartLoading();
 	bool			 CanSetAsTranslation() { return true; }
 	void			 Synchronize();
 
