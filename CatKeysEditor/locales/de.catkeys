@@ -1,4 +1,5 @@
-1	English	application/x-vnd.puckipedia-CatKeysEditor	1128537262
+1	German	application/x-vnd.puckipedia-CatKeysEditor	1116685186
+Close	CatKeyApp		Schließen
 Failed to suggest translation	TranslationView		Übersetzungsvorschlag fehlgeschlagen
 Comment: 	TranslationView		Kommentar: 
 Translated:	TranslationView		Übersetzung:
@@ -10,4 +11,7 @@ Filter:	TranslationView		Filter:
 Close	TranslationView		Schließen
 Source:	TranslationView		Quelle:
 Set as translation	TranslationView		Übersetzung speichern
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Die Datei konnte nicht geladen werden. Handelt es sich tatsächlich um eine catkeys Datei?
+Failed to load file	CatKeyApp		Fehler beim Laden der Datei
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Übersetzungsvorschlag fehlgeschlagen.\nVielleicht fehlen die nötigen Berechtigungen?
+ngen?
