@@ -276,12 +276,13 @@ TranslationView::MessageReceived(BMessage *msg)
 		mReceivedUnits++;
 
 		if (_Filter(u)) {
-			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits));
+			mWordsView->AddItem(new UnitItem(u->Source(), mReceivedUnits - 1));
 			if (mWordsView->CurrentSelection() == -1)
 				mWordsView->Select(0);
 			else
 				break;
-		}
+		} else
+			break;
 	}
 	// Yes, fallthrough is on purpose!
 	case kMsgSelectUnit: {
