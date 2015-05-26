@@ -18,6 +18,7 @@ public:
 	void	ReadyToRun();
 	void	MessageReceived(BMessage *);
 	void	RefsReceived(BMessage *);
+	void	OpenFilePanel();
 private:
 	int32	mOpenWindows;
 	void	_OpenWindow(BString);

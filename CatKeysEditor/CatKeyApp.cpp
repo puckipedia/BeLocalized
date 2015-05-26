@@ -35,7 +35,6 @@ CatKeyApp::_OpenWindow(BString path)
 	window->SetTitle(store->Title());
 	view->SetStore(store);
 	if (!store->StartLoading()) {
-		delete view;
 		delete window;
 		delete store;
 
@@ -43,6 +42,9 @@ CatKeyApp::_OpenWindow(BString path)
 			B_TRANSLATE("The file failed to load. Are you sure it's a catkey file?"),
 			B_TRANSLATE("Close"));
 		alert->Go();
+
+		if (mOpenWindows == 0)
+			OpenFilePanel();
 	} else {
 		view->SetAutomaticallyConfirm(true);
 		window->Show();
@@ -56,12 +58,21 @@ CatKeyApp::ReadyToRun()
 {
 	if (mOpenWindows == 0) {
 		fprintf(stderr, "Usage: %s [file] [file] [...]\n", mCalledAs);
-		mOpenPanel = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
-			B_FILE_NODE | B_DIRECTORY_NODE);
-		mOpenPanel->SetTarget(this);
-		mOpenPanel->Show();
+		OpenFilePanel();
 	}
 }
+
+
+void
+CatKeyApp::OpenFilePanel()
+{
+	if (!mOpenPanel)
+		mOpenPanel = new BFilePanel(B_OPEN_PANEL, NULL, NULL,
+			B_FILE_NODE | B_DIRECTORY_NODE);
+	mOpenPanel->SetTarget(this);
+	mOpenPanel->Show();
+}
+
 
 void
 CatKeyApp::ArgvReceived(int32 argc, char **argv)
