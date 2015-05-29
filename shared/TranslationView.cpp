@@ -66,7 +66,7 @@ TranslationView::TranslationView()
 	mTranslated = new BTextView("translated");
 	mTranslated->SetInsets(6, 3, 6, 3);
 	mTranslatedScroll = new BScrollView("translated scroller", mTranslated, 0, false, true);
-	mTranslatedLabel = new BStringView("translated label", B_TRANSLATE("Translated:"));
+	mTranslatedLabel = new BStringView("translated label", B_TRANSLATE("Translation:"));
 	mTranslatedLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	mSuggest = new BButton("suggest", "Suggest", new BMessage(kMsgSuggest));
