@@ -1,12 +1,12 @@
-1	German	application/x-vnd.puckipedia-CatKeysEditor	1116685186
+1	German	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Schließen
 Failed to suggest translation	TranslationView		Übersetzungsvorschlag fehlgeschlagen
 Comment: 	TranslationView		Kommentar: 
-Translated:	TranslationView		Übersetzung:
 Context: 	TranslationView		Kontext: 
 Failed to set the translation.\nDo you have the right permissions?	TranslationView		Die Übersetzung wurde nicht angenommen.\nVielleicht fehlen die nötigen Berechtigungen?
 Failed to set translation	TranslationView		Übersetzung wurde nicht angenommen
 Hide translated	TranslationView		Übersetzte Einträge ausblenden
+Translation:	TranslationView		Übersetzung:
 Filter:	TranslationView		Filter:
 Close	TranslationView		Schließen
 Source:	TranslationView		Quelle:

@@ -1,12 +1,12 @@
-1	Dutch	application/x-vnd.puckipedia-CatKeysEditor	1116685186
+1	Dutch	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Sluit
 Failed to suggest translation	TranslationView		Mislukt om de vertaling voor te stellen
 Comment: 	TranslationView		Commentaar: 
-Translated:	TranslationView		Vertaald:
 Context: 	TranslationView		Verband: 
 Failed to set the translation.\nDo you have the right permissions?	TranslationView		Het instellen van de vertaling is mislukt.\nHeb je de correcte toestemmingen?
 Failed to set translation	TranslationView		Mislukt om de vertaling in te stellen
 Hide translated	TranslationView		Verberg vertaald
+Translation:	TranslationView		Vertaling:
 Filter:	TranslationView		Filter:
 Close	TranslationView		Sluiten
 Source:	TranslationView		Bron:
