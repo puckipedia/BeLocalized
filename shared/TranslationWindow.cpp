@@ -4,6 +4,7 @@
 
 #include <Application.h>
 #include <ControlLook.h>
+#include <Entry.h>
 #include <LayoutBuilder.h>
 #include <Message.h>
 #include <Rect.h>
@@ -43,5 +44,12 @@ TranslationWindow::QuitRequested()
 void
 TranslationWindow::MessageReceived(BMessage *msg)
 {
+	if (msg->WasDropped()) {
+		entry_ref ref;
+		if (msg->FindRef("refs", 0, &ref)==B_OK) {
+			msg->what = B_REFS_RECEIVED;
+			be_app->PostMessage(msg);
+		}
+	}
 	BWindow::MessageReceived(msg);
 }
