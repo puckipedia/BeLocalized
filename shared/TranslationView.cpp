@@ -1,5 +1,6 @@
 #include "TranslationView.h"
 
+#include "CatKeyStore.h"
 #include "TranslationStore.h"
 
 #include <Alert.h>
@@ -15,6 +16,7 @@
 #include <StringView.h>
 #include <TextControl.h>
 #include <TextView.h>
+#include <Path.h>
 
 #include <stdio.h>
 
@@ -178,7 +180,7 @@ TranslationView::_Filter(TranslationUnit *unit)
 	BString translated = unit->Translated();
 	BString text = unit->Source();
 	BString searchText = mSearchControl->Text();
-	if (mHideTranslated && (translated.Length() > 0 || translated == text))
+	if (mHideTranslated && translated.Length() > 0 && translated != text)
 		return false;
 
 	if (text.IFindFirst(searchText) < 0 && translated.IFindFirst(searchText) < 0)
@@ -246,6 +248,19 @@ TranslationView::SetAutomaticallyConfirm(bool confirm)
 {
 	mAutomaticallyConfirm = confirm;
 	_UpdateButtons();
+}
+
+void
+TranslationView::ImportKeys(entry_ref fileRef)
+{
+	BEntry fileEntry(&fileRef);
+	if(!fileEntry.Exists())
+		return;
+	BPath filePath(&fileRef);
+	BString pathString(filePath.Path());
+	BMessenger messenger(this);
+	CatKeyStore sourceStore(pathString, messenger, kMsgImportUnit);
+	sourceStore.StartLoading();
 }
 
 void
@@ -333,6 +348,43 @@ TranslationView::MessageReceived(BMessage *msg)
 	case kMsgUpdateView: {
 		mHideTranslated = mHideTranslatedCheckbox->Value() == B_CONTROL_ON;
 		_UpdateView();
+		break;
+	}
+	case kMsgImportUnit: {
+		TranslationUnit *uSource;
+		if (msg->FindPointer("unit", (void **)&uSource) != B_OK) {
+			break;
+		}
+		
+		TranslationStore *s;
+		msg->FindPointer("store", (void **)&s);
+		if (s == mStore)
+			break;
+		
+		int selection = mWordsView->CurrentSelection();
+		mWordsView->DeselectAll();
+		mUnit = NULL;
+		mSource->SetText("");
+		mContext->SetText("");
+		mDeveloperComment->SetText("");
+		mTranslated->SetText("");
+		
+		TranslationUnit *uTarget;
+		for (int32 i = 0; i < mStore->LoadedUnits(); i++) {
+			uTarget = mStore->UnitAt(i);
+			if(uTarget)
+			{
+				if(uTarget->Source()==uSource->Source() && uTarget->Context()==uSource->Context())
+				{
+					uTarget->SetTranslated(uSource->Translated());
+					continue;
+				}
+			}
+		}
+		_UpdateView();
+		if(selection)
+			mWordsView->Select(selection);
+		mStore->Synchronize();
 		break;
 	}
 

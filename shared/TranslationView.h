@@ -16,6 +16,7 @@ class TranslationStore;
 class TranslationUnit;
 
 const int32 kMsgGotUnit = 'Unit';
+const int32 kMsgImportUnit = 'IMPU';
 
 class TranslationView : public BView {
 public:
@@ -31,6 +32,7 @@ public:
 	bool				 AutomaticallyConfirm() const {
 							return mAutomaticallyConfirm; }
 	void				 SetAutomaticallyConfirm(bool);
+	void				 ImportKeys(entry_ref fileRef);
 
 private:
 	void				 _UpdateView();
@@ -71,6 +73,7 @@ private:
 	TranslationUnit		*mUnit;
 	int					 mReceivedUnits;
 	bool				 mAutomaticallyConfirm;
+	
 };
 
 #endif
