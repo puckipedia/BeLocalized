@@ -6,6 +6,8 @@
 class TranslationView;
 
 const int32 kMsgWindowClosed = 'WINC';
+const int32 kMsgImportMenuitem = 'IMPM';
+const int32 kImportRef = 'IMPR';
 
 class TranslationWindow : public BWindow {
 public:
@@ -17,6 +19,7 @@ public:
 
 private:
 	TranslationView	*mView;
+	BFilePanel		*mImportFilePanel;
 };
 
 #endif
