@@ -1,6 +1,7 @@
 #ifndef CATKEY_TRANSLATION_WINDOW_H
 #define CATKEY_TRANSLATION_WINDOW_H
 
+#include <FilePanel.h>
 #include <Window.h>
 
 class TranslationView;
