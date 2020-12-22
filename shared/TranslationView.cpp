@@ -315,7 +315,7 @@ TranslationView::MessageReceived(BMessage *msg)
 		mContext->SetText(mUnit->Context());
 		mDeveloperComment->SetText(mUnit->DeveloperComment());
 		mTranslated->SetText(mUnit->Translated());
-
+		mTranslated->SelectAll();
 		mWordsView->ScrollToSelection();
 		break;
 	}
@@ -384,7 +384,7 @@ TranslationView::MessageReceived(BMessage *msg)
 		_UpdateView();
 		if(selection)
 			mWordsView->Select(selection);
-		mStore->Synchronize();
+			mStore->Synchronize();
 		break;
 	}
 
