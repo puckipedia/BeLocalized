@@ -1,0 +1,16 @@
+1	Thai	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		ปิด
+Failed to load file	CatKeyApp		ไม่สามารถโหลดไฟล์
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		ไม่สามารถโหลดไฟล์ คุณแน่ใจหรือว่าเป็นไฟล์ catkey?
+Close	TranslationView		ปิด
+Comment: 	TranslationView		ความเห็น: 
+Context: 	TranslationView		อธิบาย:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		ไม่สามารถทำการแปล\n คุณมีสิทธิ์ที่ถูกต้องหรือไม่?
+Failed to set translation	TranslationView		ไม่สามารถทำการแปล
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		ไม่สามารถแนะนำการแปลได้\n คุณมีสิทธิ์ที่ถูกต้องหรือไม่?
+Failed to suggest translation	TranslationView		ไม่สามารถแนะนำการแปลได้
+Filter:	TranslationView		ตัวกรอง:
+Hide translated	TranslationView		ซ่อนการแปล
+Set as translation	TranslationView		ตั้งเป็นการแปล
+Source:	TranslationView		แหล่งข้อมูล:
+Translation:	TranslationView		การแปล:

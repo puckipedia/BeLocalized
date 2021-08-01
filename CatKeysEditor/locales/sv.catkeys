@@ -1,0 +1,16 @@
+1	Swedish	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Avsluta
+Failed to load file	CatKeyApp		Misslyckades med att ladda filen
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Filen gick inte att ladda. Är du säker på att det är en catkey-fil?
+Close	TranslationView		Stäng
+Comment: 	TranslationView		Kommentar:
+Context: 	TranslationView		Kontext:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Misslyckades med att sätta översättningen.\nHar du rätt läs och skrivrättigheter?
+Failed to set translation	TranslationView		Misslyckades med att sätta översättningen
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Misslyckades med att föreslå översättningen\nHar du rätt läs och skrivrättigheter?
+Failed to suggest translation	TranslationView		Misslyckades med att föreslå en översättning
+Filter:	TranslationView		Filter:
+Hide translated	TranslationView		Gör översatta
+Set as translation	TranslationView		Sätt som översättning
+Source:	TranslationView		Källa:
+Translation:	TranslationView		Översättning:

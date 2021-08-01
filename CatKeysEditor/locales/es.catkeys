@@ -1,0 +1,16 @@
+1	Spanish	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Cerrar
+Failed to load file	CatKeyApp		Hubo un error al cargar el archivo
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Hubo un error al cargar el archivo. ¿Está seguro que es un archivo catkey?
+Close	TranslationView		Cerrar
+Comment: 	TranslationView		Comentario:
+Context: 	TranslationView		Contexto:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Hubo un error al asignar la traducción.\n¿Tiene los permisos correctos?
+Failed to set translation	TranslationView		Hubo un error al asignar la traducción
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Hubo un error al sugerir la traducción.\n¿Tiene los permisos correctos?
+Failed to suggest translation	TranslationView		Hubo un error al sugerir la traducción
+Filter:	TranslationView		Filtro:
+Hide translated	TranslationView		Ocultar traducidos
+Set as translation	TranslationView		Asignar como traducción
+Source:	TranslationView		Origen:
+Translation:	TranslationView		Traducción:

@@ -1,0 +1,16 @@
+1	Polish	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Zamknij
+Failed to load file	CatKeyApp		Nie udało się wczytać pliku
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Nie udało się wczytać pliku. Masz pewność, że to plik catkey?
+Close	TranslationView		Zamknij
+Comment: 	TranslationView		Komentarz:
+Context: 	TranslationView		Kontekst:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Nie udało się zapisać tłumaczenia.\nMasz odpowiednie uprawnienia?
+Failed to set translation	TranslationView		Nie udało się zapisać tłumaczenia
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Nie udało się zasugerować tłumaczenia.\nMasz odpowiednie uprawnienia?
+Failed to suggest translation	TranslationView		Nie udało się zasugerować tłumaczenia
+Filter:	TranslationView		Filtr:
+Hide translated	TranslationView		Ukryj przetłumaczone
+Set as translation	TranslationView		Ustaw jako tłumaczenie
+Source:	TranslationView		Źródło:
+Translation:	TranslationView		Tłumaczenie:

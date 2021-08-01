@@ -1,0 +1,16 @@
+1	French	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Fermer
+Failed to load file	CatKeyApp		Impossible de charger le fichier
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Le chargement du fichier a échoué. Êtes-vous sûr que c'est un fichier catkey ?
+Close	TranslationView		Fermer
+Comment: 	TranslationView		Commentaire : 
+Context: 	TranslationView		Contexte : 
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Définir la traduction a échoué. Avez-vous les droits nécessaires ?
+Failed to set translation	TranslationView		Impossible de définir la traduction
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Suggérer la traduction a échoué.\nAvez-vous les droits nécessaires ?
+Failed to suggest translation	TranslationView		Impossible de suggérer la traduction
+Filter:	TranslationView		Filtre :
+Hide translated	TranslationView		Cacher ce qui est déjà traduit
+Set as translation	TranslationView		Définir comme traduction
+Source:	TranslationView		Source :
+Translation:	TranslationView		Traduction :
