@@ -1,0 +1,16 @@
+1	Japanese	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		閉じる
+Failed to load file	CatKeyApp		ファイルのロードに失敗しました
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		ファイルのロードに失敗しました。それは本当に catkey ファイルですか?
+Close	TranslationView		閉じる
+Comment: 	TranslationView		コメント:
+Context: 	TranslationView		コンテクスト:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		翻訳の設定に失敗しました。\n正しいパーミッションはありますか?
+Failed to set translation	TranslationView		翻訳を設定できませんでした
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		翻訳の提案に失敗しました。\n正しいパーミッションはありますか?
+Failed to suggest translation	TranslationView		翻訳の提案に失敗しました
+Filter:	TranslationView		フィルター:
+Hide translated	TranslationView		翻訳済みを隠す
+Set as translation	TranslationView		翻訳として設定
+Source:	TranslationView		翻訳元:
+Translation:	TranslationView		翻訳:

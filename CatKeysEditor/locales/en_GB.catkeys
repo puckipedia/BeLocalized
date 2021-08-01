@@ -1,0 +1,16 @@
+1	English (British)	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Close
+Failed to load file	CatKeyApp		Failed to load file
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		The file failed to load. Are you sure it's a catkey file?
+Close	TranslationView		Close
+Comment: 	TranslationView		Comment:
+Context: 	TranslationView		Context:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Failed to set the translation.\nDo you have the right permissions?
+Failed to set translation	TranslationView		Failed to set translation
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Failed to suggest the translation.\nDo you have the right permissions?
+Failed to suggest translation	TranslationView		Failed to suggest translation
+Filter:	TranslationView		Filter:
+Hide translated	TranslationView		Hide translated
+Set as translation	TranslationView		Set as translation
+Source:	TranslationView		Source:
+Translation:	TranslationView		Translation:

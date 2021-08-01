@@ -1,0 +1,16 @@
+1	Turkish	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Kapat
+Failed to load file	CatKeyApp		Dosya yüklenemedi
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Dosya yüklenemedi. Bu dosyanın bir catkey dosyası olduğundan emin misiniz?
+Close	TranslationView		Kapat
+Comment: 	TranslationView		Yorum:
+Context: 	TranslationView		Bağlam:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Çeviri ayarlanamadı.\nGerekli izinlere sahip olduğunuzdan emin misiniz?
+Failed to set translation	TranslationView		Çeviri ayarlanamadı
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Çeviri önerilemedi.\nDoğru izinlere sahip olduğunuzdan emin misiniz?
+Failed to suggest translation	TranslationView		Çeviri önerilemedi
+Filter:	TranslationView		Süzgeç:
+Hide translated	TranslationView		Çevrilenleri gizle
+Set as translation	TranslationView		Çeviri ayarla
+Source:	TranslationView		Kaynak:
+Translation:	TranslationView		Çeviri:

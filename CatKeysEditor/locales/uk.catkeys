@@ -1,16 +1,16 @@
 1	Ukrainian	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Закрити
-Failed to suggest translation	TranslationView		Неможливо виконати переклад
+Failed to load file	CatKeyApp		Неможливо завантажити файл
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Файл неможливо завантажити. Ви впевнені, що це catkey файл?
+Close	TranslationView		Закрити
 Comment: 	TranslationView		Коментар:
 Context: 	TranslationView		Контекст:
 Failed to set the translation.\nDo you have the right permissions?	TranslationView		Неможливо зберегти переклад.\nЧи маєте ви відповідні дозволи?
 Failed to set translation	TranslationView		Неможливо зберегти переклад
-Hide translated	TranslationView		Приховати перекладені рядки
-Translation:	TranslationView		Переклад:
-Filter:	TranslationView		Фільтр:
-Close	TranslationView		Закрити
-Source:	TranslationView		Джерело:
-Set as translation	TranslationView		Зберегти переклад
-The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Файл неможливо завантажити. Ви впевнені, що це catkey файл?
-Failed to load file	CatKeyApp		Неможливо завантажити файл
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Неможливо виконати переклад.\nЧи маєте ви відповідні дозволи?
+Failed to suggest translation	TranslationView		Неможливо виконати переклад
+Filter:	TranslationView		Фільтр:
+Hide translated	TranslationView		Приховати перекладені рядки
+Set as translation	TranslationView		Зберегти переклад
+Source:	TranslationView		Джерело:
+Translation:	TranslationView		Переклад:

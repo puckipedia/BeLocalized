@@ -1,0 +1,16 @@
+1	Indonesian	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Tutup
+Failed to load file	CatKeyApp		Gagal memuat berkas
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Berkas gagal dimuat. Apakah anda yakin berkas catkey?
+Close	TranslationView		Tutup
+Comment: 	TranslationView		Komentar:
+Context: 	TranslationView		Konteks:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Gagal mengatur terjemahan. \nApakah Anda memiliki izin yang tepat?
+Failed to set translation	TranslationView		Gagal mengatur terjemahan
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Gagal menyarankan terjemahan.\nApakah Anda memiliki izin yang tepat?
+Failed to suggest translation	TranslationView		Gagal menyarankan terjemahan
+Filter:	TranslationView		Saring:
+Hide translated	TranslationView		Sembunyikan terjemahan
+Set as translation	TranslationView		Atur sebagai terjemahan
+Source:	TranslationView		Sumber:
+Translation:	TranslationView		Terjemahan:

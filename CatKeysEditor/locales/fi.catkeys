@@ -1,0 +1,16 @@
+1	Finnish	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Sulje
+Failed to load file	CatKeyApp		Tiedoston lataaminen epäonnistui
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Tiedoston lataaminen ei onnistunut. Oletko varma, että se on catkey-tiedosto?
+Close	TranslationView		Sulje
+Comment: 	TranslationView		Kommentit:
+Context: 	TranslationView		Konteksti:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Suomennoksen asettaminen epäonnistui.\nOnko sinulla oikeat käyttöoikeudet?
+Failed to set translation	TranslationView		Suomennoksen asettaminen epäonnistui
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Suomennoksen ehdottaminen epäonnistui.\nOnko sinulla oikeat käyttöoikeudet?
+Failed to suggest translation	TranslationView		Ehdotus suomennokseksi epäonnistui
+Filter:	TranslationView		Suodatin:
+Hide translated	TranslationView		Piilota suomennos
+Set as translation	TranslationView		Aseta suomennoksena
+Source:	TranslationView		Lähde:
+Translation:	TranslationView		Suomennos:

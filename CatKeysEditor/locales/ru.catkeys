@@ -1,16 +1,16 @@
-1	English	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+1	Russian	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Закрыть
-Failed to suggest translation	TranslationView		Не удалось предложить перевод
+Failed to load file	CatKeyApp		Не удалось загрузить файл
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Не удалось загрузить файл. Вы уверены, что это файл catkey?
+Close	TranslationView		Закрыть
 Comment: 	TranslationView		Комментарий:
 Context: 	TranslationView		Контекст:
-Failed to set the translation.\nDo you have the right permissions?	TranslationView		Не удалось установить перевод.\nУ вас есть соответствующие привилегии?
-Failed to set translation	TranslationView		Не удалось установить перевод
-Hide translated	TranslationView		Скрыть переведенное
-Translation:	TranslationView		Перевод:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Не удалось задать перевод.\nУ вас есть необходимые разрешения?
+Failed to set translation	TranslationView		Не удалось задать перевод
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Не удалось предложить перевод.\nУ вас есть необходимые разрешения?
+Failed to suggest translation	TranslationView		Не удалось предложить перевод
 Filter:	TranslationView		Фильтр:
-Close	TranslationView		Закрыть
+Hide translated	TranslationView		Скрыть переведенное
+Set as translation	TranslationView		Задать перевод
 Source:	TranslationView		Источник:
-Set as translation	TranslationView		Установить перевод
-The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Ошибка загрузки файла. Вы уверены, что этот файл имеет тип catkey?
-Failed to load file	CatKeyApp		Не удалось загрузить файл
-Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Не удалось предложить перевод.\nУ вас есть соответствующие привилегии?
+Translation:	TranslationView		Перевод:

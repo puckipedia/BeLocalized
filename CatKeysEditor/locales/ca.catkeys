@@ -1,0 +1,16 @@
+1	Catalan	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Tanca
+Failed to load file	CatKeyApp		Ha fallat carregar el fitxer
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		No s'ha pogut carregar el fitxer. Segur que és un fitxer de catkey?
+Close	TranslationView		Tanca
+Comment: 	TranslationView		Comentari: 
+Context: 	TranslationView		Context: 
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Ha fallat establir la traducció.\nTeniu els permisos correctes?
+Failed to set translation	TranslationView		Ha fallat establir la traducció.
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Ha fallat suggerir la traducció.\nTeniu els permisos correctes?
+Failed to suggest translation	TranslationView		Ha fallat suggerir la traducció.
+Filter:	TranslationView		Filtre: 
+Hide translated	TranslationView		Amaga la traducció
+Set as translation	TranslationView		Estableix com a traducció
+Source:	TranslationView		Font: 
+Translation:	TranslationView		Traducció: 

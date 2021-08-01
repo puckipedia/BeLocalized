@@ -1,0 +1,16 @@
+1	Czech	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Zavřít
+Failed to load file	CatKeyApp		Načtení souboru se nezdařilo
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Nepodařilo se načíst soubor. Opravdu se jedná o formát catkey?
+Close	TranslationView		Zavřít
+Comment: 	TranslationView		Komentář: 
+Context: 	TranslationView		Kontext: 
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Nastavení překladu se nezdařilo.\nMáte příslušná oprávnění?
+Failed to set translation	TranslationView		Nastavení překladu se nezdařilo
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Nepodařilo se navrhnout překlad.\nMáte příslušná oprávnění?
+Failed to suggest translation	TranslationView		Nepodařilo se navrhnout překlad
+Filter:	TranslationView		Filtr:
+Hide translated	TranslationView		Skrýt přeložené
+Set as translation	TranslationView		Nastavit jako překlad
+Source:	TranslationView		Původní:
+Translation:	TranslationView		Překlad:

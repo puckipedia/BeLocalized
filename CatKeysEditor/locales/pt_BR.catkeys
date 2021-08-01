@@ -1,0 +1,16 @@
+1	Portuguese (Brazil)	application/x-vnd.puckipedia-CatKeysEditor	1314983983
+Close	CatKeyApp		Fechar
+Failed to load file	CatKeyApp		Falhou ao carregar o arquivo
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		O arquivo falhou ao carregar. Tem certeza de que se trata de um arquivo catkey?
+Close	TranslationView		Fechar
+Comment: 	TranslationView		Comentário:
+Context: 	TranslationView		Contexto:
+Failed to set the translation.\nDo you have the right permissions?	TranslationView		Falhou ao definir a tradução.\nVocê tem as permissões corretas?
+Failed to set translation	TranslationView		Falhou ao definir a tradução
+Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Falhou ao sugerir a tradução.\nVocê tem as permissões corretas?
+Failed to suggest translation	TranslationView		Falhou ao sugerir a tradução
+Filter:	TranslationView		Filtrar:
+Hide translated	TranslationView		Ocultar traduzido
+Set as translation	TranslationView		Definir como tradução
+Source:	TranslationView		Fonte:
+Translation:	TranslationView		Tradução:

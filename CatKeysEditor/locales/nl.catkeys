@@ -1,16 +1,16 @@
 1	Dutch	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Sluit
-Failed to suggest translation	TranslationView		Mislukt om de vertaling voor te stellen
+Failed to load file	CatKeyApp		Bestand laden mislukt
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Het bestand is niet geladen. Weet je zeker dat het een catkeys bestand is?
+Close	TranslationView		Sluiten
 Comment: 	TranslationView		Commentaar: 
 Context: 	TranslationView		Verband: 
 Failed to set the translation.\nDo you have the right permissions?	TranslationView		Het instellen van de vertaling is mislukt.\nHeb je de correcte toestemmingen?
 Failed to set translation	TranslationView		Mislukt om de vertaling in te stellen
-Hide translated	TranslationView		Verberg vertaald
-Translation:	TranslationView		Vertaling:
-Filter:	TranslationView		Filter:
-Close	TranslationView		Sluiten
-Source:	TranslationView		Bron:
-Set as translation	TranslationView		Stel as vertaling in
-The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Het bestand is niet geladen. Weet je zeker dat het een catkeys bestand is?
-Failed to load file	CatKeyApp		Bestand laden mislukt
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Het voorstellen van de vertaling is mislukt.\nHeb je de correcte toestemmingen?
+Failed to suggest translation	TranslationView		Mislukt om de vertaling voor te stellen
+Filter:	TranslationView		Filter:
+Hide translated	TranslationView		Verberg vertaald
+Set as translation	TranslationView		Stel as vertaling in
+Source:	TranslationView		Bron:
+Translation:	TranslationView		Vertaling:

@@ -1,16 +1,16 @@
 1	Romanian	application/x-vnd.puckipedia-CatKeysEditor	1314983983
 Close	CatKeyApp		Închide
-Failed to suggest translation	TranslationView		Nu s-a putut sugera traducerea
+Failed to load file	CatKeyApp		Nu s-a putut încărca fișierul
+The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Nu s-a putut încărca fișierul. Sigur este un fișier catkey?
+Close	TranslationView		Închide
 Comment: 	TranslationView		Comentariu:
 Context: 	TranslationView		Context:
 Failed to set the translation.\nDo you have the right permissions?	TranslationView		Nu s-a putut stabili traducerea.\nAveți permisiunile necesare?
 Failed to set translation	TranslationView		Nu s-a putut stabili traducerea
-Hide translated	TranslationView		Ascunde traduse
-Translation:	TranslationView		Traducere:
-Filter:	TranslationView		Filtru:
-Close	TranslationView		Închide
-Source:	TranslationView		Sursă:
-Set as translation	TranslationView		Stabilire ca traducere
-The file failed to load. Are you sure it's a catkey file?	CatKeyApp		Nu s-a putut încărca fișierul. Sigur este un fișier catkey?
-Failed to load file	CatKeyApp		Nu s-a putut încărca fișierul
 Failed to suggest the translation.\nDo you have the right permissions?	TranslationView		Nu s-a putut sugera traducerea.\nAveți permisiunile necesare?
+Failed to suggest translation	TranslationView		Nu s-a putut sugera traducerea
+Filter:	TranslationView		Filtru:
+Hide translated	TranslationView		Ascunde traduse
+Set as translation	TranslationView		Stabilire ca traducere
+Source:	TranslationView		Sursă:
+Translation:	TranslationView		Traducere:
