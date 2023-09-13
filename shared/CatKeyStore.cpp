@@ -16,7 +16,7 @@ public:
 	void	SetTranslated(BString t) { mTranslated = t; }
 	
 	bool	Suggest() { return false; }
-	bool	SetAsTranslation() { mStore->Synchronize(); }
+	bool	SetAsTranslation() { mStore->Synchronize(); return true;}
 private:
 	BString		 mSource;
 	BString		 mContext;
